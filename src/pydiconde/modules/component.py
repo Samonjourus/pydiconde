@@ -2,6 +2,66 @@ from pydicom import FileDataset
 from pydicom.dataset import Dataset, FileMetaDataset
 from pydicom.tag import Tag
 
+class otherComponentIDsSequenceElement(Dataset):
+    def __init__(self):
+        super().__init__()
+
+    @property
+    def otherComponentNames(self):
+        return self._otherComponentNames
+
+    @property
+    def componentManufacturingDate(self):
+        return self._componentManufacturingDate
+
+    @property
+    def patientSex(self):
+        return self._patientSex
+
+    @property
+    def componentNotes(self):
+        return self._componentNotes
+
+    @property
+    def componentManufacturingProcedure(self):
+        return self._componentManufacturingProcedure
+
+    @property
+    def componentManufacturer(self):
+        return self._componentManufacturer
+
+    @property
+    def componentWelderIDs(self):
+        return self._componentWelderIDs
+
+    @otherComponentNames.setter
+    def otherComponentNames(self, value):
+        self._otherComponentNames = value
+
+    @componentManufacturingDate.setter
+    def componentManufacturingDate(self, value):
+        self._componentManufacturingDate = value
+
+    @patientSex.setter
+    def patientSex(self, value):
+        self._patientSex = value
+
+    @componentNotes.setter
+    def componentNotes(self, value):
+        self._componentNotes = value
+
+    @componentManufacturingProcedure.setter
+    def componentManufacturingProcedure(self, value):
+        self._componentManufacturingProcedure = value
+
+    @componentWelderIDs.setter
+    def componentWelderIDs(self, value):
+        self._componentWelderIDs = value
+
+    @componentManufacturer.setter
+    def componentManufacturer(self, value):
+        self._componentManufacturer = value
+
 class DICONDEComponent(FileDataset):
     def __init__(self, file_path, object, file_meta=FileMetaDataset()):
         super().__init__(file_path, object, file_meta=file_meta)
@@ -115,65 +175,4 @@ class DICONDEComponent(FileDataset):
     @componentIDNumber.setter
     def componentIDNumber(self, value: str):
         self.add_new(Tag(0x0010, 0x0020), "LO", value)
-
-
-class otherComponentIDsSequenceElement(Dataset):
-    def __init__(self):
-        super().__init__()
-
-    @property
-    def otherComponentNames(self):
-        return self._otherComponentNames
-
-    @property
-    def componentManufacturingDate(self):
-        return self._componentManufacturingDate
-
-    @property
-    def patientSex(self):
-        return self._patientSex
-
-    @property
-    def componentNotes(self):
-        return self._componentNotes
-
-    @property
-    def componentManufacturingProcedure(self):
-        return self._componentManufacturingProcedure
-
-    @property
-    def componentManufacturer(self):
-        return self._componentManufacturer
-
-    @property
-    def componentWelderIDs(self):
-        return self._componentWelderIDs
-
-    @otherComponentNames.setter
-    def otherComponentNames(self, value):
-        self._otherComponentNames = value
-
-    @componentManufacturingDate.setter
-    def componentManufacturingDate(self, value):
-        self._componentManufacturingDate = value
-
-    @patientSex.setter
-    def patientSex(self, value):
-        self._patientSex = value
-
-    @componentNotes.setter
-    def componentNotes(self, value):
-        self._componentNotes = value
-
-    @componentManufacturingProcedure.setter
-    def componentManufacturingProcedure(self, value):
-        self._componentManufacturingProcedure = value
-
-    @componentWelderIDs.setter
-    def componentWelderIDs(self, value):
-        self._componentWelderIDs = value
-
-    @componentManufacturer.setter
-    def componentManufacturer(self, value):
-        self._componentManufacturer = value
 
