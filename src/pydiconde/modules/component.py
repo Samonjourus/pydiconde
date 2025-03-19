@@ -17,7 +17,12 @@ class DICONDEComponent(FileDataset):
 
     @property
     def componentIDNumber(self):
-        return self._componentIDNumber
+        """ The component ID to be assigned to tag (0010,0020).
+
+        The value is expected to be an ID. The field is required, but can be
+        zero-valued.
+        """
+        return self[Tag(0x0010, 0x0020)].value
 
     @property
     def otherComponentIDsSequence(self):
@@ -165,5 +170,5 @@ class DICONDEComponent(FileDataset):
 
     @componentIDNumber.setter
     def componentIDNumber(self, value):
-        self._componentIDNumber = value
+        self.add_new(Tag(0x0010, 0x0020), "LO", value)
 
