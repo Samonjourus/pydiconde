@@ -7,8 +7,12 @@ class otherComponentIDsSequenceElement(Dataset):
         super().__init__()
 
     @property
-    def otherComponentNames(self):
-        return self._otherComponentNames
+    def otherComponentNames(self) -> list[str]:
+        """ The component names to be assigned to tag (0010,1001).
+
+        The value is expected to be a person name, but not required.
+        """
+        return self[Tag(0x0010, 0x1001)].value
 
     @property
     def componentManufacturingDate(self):
@@ -35,7 +39,7 @@ class otherComponentIDsSequenceElement(Dataset):
         return self._componentWelderIDs
 
     @otherComponentNames.setter
-    def otherComponentNames(self, value):
+    def otherComponentNames(self, value: list[str]):
         self._otherComponentNames = value
 
     @componentManufacturingDate.setter
