@@ -1,5 +1,6 @@
 from pydicom import FileDataset
 from pydicom.dataset import FileMetaDataset
+from pydicom.tag import Tag
 
 class DICONDEComponent(FileDataset):
     def __init__(self, file_path, object, file_meta=FileMetaDataset()):
@@ -12,7 +13,7 @@ class DICONDEComponent(FileDataset):
         The value is expected to be a name. The field is required, but can be
         zero-valued.
         """
-        return self._componentName
+        return self[Tag(0x0010, 0x0010)].value
 
     @property
     def componentIDNumber(self):
@@ -124,7 +125,7 @@ class DICONDEComponent(FileDataset):
 
     @componentName.setter
     def componentName(self, value:str):
-        self._componentName = value
+        self[Tag(0x0010, 0x0010)].value = value
 
     @materialGrade.setter
     def materialGrade(self, value):
