@@ -85,8 +85,12 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0010, 0x0020)].value
 
     @property
-    def otherComponentIDsSequence(self):
-        return self._otherComponentIDsSequence
+    def otherComponentIDsSequence(self) -> list[otherComponentIDsSequenceElement]:
+        """ sequence of other components within the file, assigned to tag (0010,1002).
+
+        The value is expected to be a list of otherComponentIDsSequenceElements, but not required.
+        """
+        return self[Tag(0x0010, 0x1002)].value
 
     @property
     def materialName(self):
@@ -169,8 +173,8 @@ class DICONDEComponent(FileDataset):
         self._componentIDNumber = value
 
     @otherComponentIDsSequence.setter
-    def otherComponentIDsSequence(self, value):
-        self._otherComponentIDsSequence = value
+    def otherComponentIDsSequence(self, value:list[otherComponentIDsSequenceElement]):
+        self.add_new(Tag(0x0010, 0x1002), "SQ", value)
 
     @componentIDNumber.setter
     def componentIDNumber(self, value: str):
