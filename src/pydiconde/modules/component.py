@@ -130,7 +130,7 @@ class DICONDEComponent(FileDataset):
 
     @componentName.setter
     def componentName(self, value:str):
-        self[Tag(0x0010, 0x0010)].value = value
+        self.add_new(Tag(0x0010, 0x0010), "PN", value)
 
     @materialGrade.setter
     def materialGrade(self, value):
