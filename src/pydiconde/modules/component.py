@@ -7,7 +7,7 @@ class DICONDEComponent(FileDataset):
         super().__init__(file_path, object, file_meta=file_meta)
 
     @property
-    def componentName(self):
+    def componentName(self) -> str:
         """ The component name to be assigned to tag (0010,0010).
 
         The value is expected to be a name. The field is required, but can be
@@ -16,7 +16,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0010, 0x0010)].value
 
     @property
-    def componentIDNumber(self):
+    def componentIDNumber(self) -> str:
         """ The component ID to be assigned to tag (0010,0020).
 
         The value is expected to be an ID. The field is required, but can be
@@ -113,7 +113,7 @@ class DICONDEComponent(FileDataset):
         self._otherComponentIDsSequence = value
 
     @componentIDNumber.setter
-    def componentIDNumber(self, value):
+    def componentIDNumber(self, value: str):
         self.add_new(Tag(0x0010, 0x0020), "LO", value)
 
 
