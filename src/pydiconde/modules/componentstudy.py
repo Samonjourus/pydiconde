@@ -53,4 +53,52 @@ class DICONDEComponentStudy(FileDataset):
 
     @studyID.setter
     def studyID(self, value: str):
-        self.add_new(Tag(0x0020, 0x0010), "TM", value)
+        self.add_new(Tag(0x0020, 0x0010), "SH", value)
+
+    @property
+    def accessionNumber(self) -> str:
+        """ The accession number to be assigned to tag (0008,0050).
+
+        The value is expected to be a short text. The field is required, but can be zero-valued.
+        """ # TODO: verify requirement
+        return self[Tag(0x0008, 0x0050)].value
+
+    @accessionNumber.setter
+    def accessionNumber(self, value: str):
+        self.add_new(Tag(0x0008,0x0050), "SH", value)
+
+    @property
+    def componentOwnerName(self) -> str:
+        """ The component owner name to be assigned to tag (0008,0090).
+
+        The value is expected to be a patient name. The field is required, but can be zero-valued.
+        """ # TODO: verify requirement
+        return self[Tag(0x0008, 0x0090)].value
+
+    @componentOwnerName.setter
+    def componentOwnerName(self, value: str):
+        self.add_new(Tag(0x0008,0x0090), "PN", value)
+
+    @property
+    def inspectingCompanyName(self) -> str:
+        """ The inspecting company name to be assigned to tag (0008,1048).
+
+        The value is expected to be a patient name. The field is required, but can be zero-valued.
+        """ # TODO: verify requirement
+        return self[Tag(0x0008, 0x1048)].value
+
+    @inspectingCompanyName.setter
+    def inspectingCompanyName(self, value: str):
+        self.add_new(Tag(0x0008,0x1048), "PN", value)
+
+    @property
+    def certifyingInspectorName(self) -> str:
+        """ The certifying inspector name to be assigned to tag (0008,1060).
+
+        The value is expected to be a patient name. The field is required, but can be zero-valued.
+        """ # TODO: verify requirement
+        return self[Tag(0x0008, 0x1060)].value
+
+    @certifyingInspectorName.setter
+    def certifyingInspectorName(self, value: str):
+        self.add_new(Tag(0x0008,0x1060), "PN", value)
