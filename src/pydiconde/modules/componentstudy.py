@@ -1,7 +1,36 @@
 from pydicom import FileDataset
-from pydicom.dataset import FileMetaDataset
+from pydicom.dataset import Dataset, FileMetaDataset
 from pydicom.tag import Tag
 from datetime import datetime
+
+
+class ReferencedStudySequenceElement(Dataset):
+    def __init__(self):
+        super().__init__()
+
+    @property
+    def studyInstanceUID(self) -> str:
+        """ The UID of the study to be assigned to tag (0020,000D).
+
+        The value is expected to be a unique identifier, but not required.
+        """
+        return self[Tag(0x0020,0x000D)].value
+
+    @studyInstanceUID.setter
+    def studyInstanceUID(self, value: list[str]):
+        self.add_new(Tag(0x0020,0x000D), "UI", value)
+
+    @property
+    def seriesInstanceUID(self) -> str:
+        """ The UID of the series to be assigned to tag (0020,000E).
+
+        The value is expected to be a unique identifier, but not required.
+        """
+        return self[Tag(0x0020,0x000E)].value
+
+    @seriesInstanceUID.setter
+    def seriesInstanceUID(self, value: list[str]):
+        self.add_new(Tag(0x0020,0x000E), "UI", value)
 
 class DICONDEComponentStudy(FileDataset):
     def __init__(self, file_path, object, file_meta=FileMetaDataset()):
@@ -102,3 +131,51 @@ class DICONDEComponentStudy(FileDataset):
     @certifyingInspectorName.setter
     def certifyingInspectorName(self, value: str):
         self.add_new(Tag(0x0008,0x1060), "PN", value)
+
+    @property
+    def studyDescription(self) -> str:
+        """ The study description to be assigned to tag (0008,1030).
+
+        The value is expected to be a long string. The field is required, but can be zero-valued.
+        """ # TODO: verify requirement
+        return self[Tag(0x0008, 0x1030)].value
+
+    @studyDescription.setter
+    def studyDescription(self, value: str):
+        self.add_new(Tag(0x0008,0x1030), "LO", value)
+
+    @property
+    def referencedStudySequence(self) -> list[ReferencedStudySequenceElement]:
+        """ The referenced study sequence to be assigned to tag (0008,1110).
+
+        The value is expected to be a sequence. The field is not required.
+        """ # TODO: verify requirement
+        return self[Tag(0x0008, 0x1110)].value
+
+    @referencedStudySequence.setter
+    def referencedStudySequence(self, value: list[ReferencedStudySequenceElement]):
+        self.add_new(Tag(0x0008,0x1110), "SQ", value)
+
+    @property
+    def examinationNotes(self) -> str:
+        """ The examination notes to be assigned to tag (0032,4000).
+
+        The value is expected to be a long text. The field is required, but can be zero-valued.
+        """ # TODO: verify requirement
+        return self[Tag(0x0008, 0x1060)].value
+
+    @examinationNotes.setter
+    def examinationNotes(self, value: str):
+        self.add_new(Tag(0x0008,0x1060), "LT", value)
+
+    @property
+    def expiryDate(self) -> datetime:
+        """ The expiry date to be assigned to tag (0014,1020).
+
+        The value is expected to be a date. The field is required, but can be zero-valued.
+        """ # TODO: verify requirement
+        return self[Tag(0x0014,0x1020)].value
+
+    @expiryDate.setter
+    def expiryDate(self, value: datetime):
+        self.add_new(Tag(0x0014,0x1020), "PN", value)
