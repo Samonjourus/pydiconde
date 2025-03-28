@@ -138,9 +138,22 @@ class CoordinateSystemTransformSequenceElement(Dataset):
         """
         return self[Tag(0x0014, 0x222A)].value
 
-    @transformedAxisUnits.setter
-    def transformedAxisUnits(self, value: str):
+    @coordinateSystemRotationAndScaleMatrix.setter
+    def coordinateSystemRotationAndScaleMatrix(self, value: str):
         self.add_new(Tag(0x0014, 0x222A), "CS", value)
+
+    @property
+    def coordinateSystemTranslationMatrix(self) -> list[int]:
+        """ The order of transform axis to be assigned to tag (0014,222C).
+
+        The value is expected to be an code string. The field is required.
+        """
+        return self[Tag(0x0014, 0x222C)].value
+
+    @coordinateSystemTranslationMatrix.setter
+    def coordinateSystemTranslationMatrix(self, value: str):
+        self.add_new(Tag(0x0014, 0x222C), "CS", value)
+
 
 class DICONDENDEGeometry(FileDataset):
     def __init__(self, file_path, object, file_meta=FileMetaDataset()):
