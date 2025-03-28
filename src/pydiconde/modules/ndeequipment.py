@@ -3,7 +3,7 @@ from pydicom.dataset import FileMetaDataset
 from pydicom.tag import Tag
 from datetime import datetime
 
-class DICONDEComponentStudy(FileDataset):
+class DICONDENDEquipment(FileDataset):
     def __init__(self, file_path, object, file_meta=FileMetaDataset()):
         super().__init__(file_path, object, file_meta=file_meta)
 

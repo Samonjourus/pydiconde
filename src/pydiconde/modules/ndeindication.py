@@ -360,7 +360,7 @@ class EvaluatorSequenceElement(Dataset):
     def indicationSequence(self, value: list[IndicationSequenceElement]):
         self.add_new(Tag(0x0014, 0x2012), "SQ", value)
 
-class DICONDEIndication(FileDataset):
+class DICONDENDEIndication(FileDataset):
     def __init__(self, file_path, object, file_meta=FileMetaDataset()):
         super().__init__(file_path, object, file_meta=file_meta)
 

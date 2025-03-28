@@ -142,9 +142,9 @@ class CoordinateSystemTransformSequenceElement(Dataset):
     def transformedAxisUnits(self, value: str):
         self.add_new(Tag(0x0014, 0x222A), "CS", value)
 
-class DICONDENDEGeometry(Dataset):
-    def __init__(self):
-        super().__init__()
+class DICONDENDEGeometry(FileDataset):
+    def __init__(self, file_path, object, file_meta=FileMetaDataset()):
+        super().__init__(file_path, object, file_meta=file_meta)
 
     @property
     def coordinateSystemNumberOfAxis(self) -> int:
@@ -178,6 +178,6 @@ class DICONDENDEGeometry(Dataset):
         """
         return self[Tag(0x0014, 0x2220)].value
 
-    @coordinateSystemAxesSequence.setter
+    @coordinateSystemTransformSequence.setter
     def coordinateSystemTransformSequence(self, value: int):
         self.add_new(Tag(0x0014, 0x2220), "SQ", value)

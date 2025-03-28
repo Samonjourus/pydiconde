@@ -133,15 +133,15 @@ class DICONDEComponentSeries(FileDataset):
         self.add_new(Tag(0x0008,0x1070), "PN", value)
 
     @property
-    def referencedStudySequence(self) -> list[RelatedSeriesSequenceElement]:
+    def relatedStudySequence(self) -> list[RelatedSeriesSequenceElement]:
         """ The referenced study sequence to be assigned to tag (0008,1110).
 
         The value is expected to be a sequence. The field is not required.
         """ # TODO: verify requirement
         return self[Tag(0x0008, 0x1250)].value
 
-    @referencedStudySequence.setter
-    def referencedStudySequence(self, value: list[RelatedSeriesSequenceElement]):
+    @relatedStudySequence.setter
+    def relatedStudySequence(self, value: list[RelatedSeriesSequenceElement]):
         self.add_new(Tag(0x0008,0x1250), "SQ", value)
 
     @property
