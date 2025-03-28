@@ -32,7 +32,7 @@ class RelatedSeriesSequenceElement(Dataset):
     def seriesInstanceUID(self, value: list[str]):
         self.add_new(Tag(0x0020,0x000E), "UI", value)
 
-class DICONDEComponentStudy(FileDataset):
+class DICONDEComponentSeries(FileDataset):
     def __init__(self, file_path, object, file_meta=FileMetaDataset()):
         super().__init__(file_path, object, file_meta=file_meta)
 
