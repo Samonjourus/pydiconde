@@ -1,5 +1,4 @@
-from pydicom import FileDataset
-from pydicom.dataset import Dataset, FileMetaDataset
+from pydicom.dataset import Dataset
 from pydicom.tag import Tag
 from datetime import datetime, time
 
@@ -32,9 +31,9 @@ class RelatedSeriesSequenceElement(Dataset):
     def seriesInstanceUID(self, value: list[str]):
         self.add_new(Tag(0x0020,0x000E), "UI", value)
 
-class DICONDEComponentSeries(FileDataset):
-    def __init__(self, file_path, object, file_meta=FileMetaDataset()):
-        super().__init__(file_path, object, file_meta=file_meta)
+class DICONDEComponentSeries(Dataset):
+    def __init__(self):
+        super().__init__()
 
     # TODO: make this into an enum
     @property

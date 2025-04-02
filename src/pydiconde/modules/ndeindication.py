@@ -1,5 +1,4 @@
-from pydicom import Dataset, FileDataset
-from pydicom.dataset import FileMetaDataset
+from pydicom import Dataset
 from pydicom.tag import Tag
 from enum import Enum
 
@@ -360,9 +359,9 @@ class EvaluatorSequenceElement(Dataset):
     def indicationSequence(self, value: list[IndicationSequenceElement]):
         self.add_new(Tag(0x0014, 0x2012), "SQ", value)
 
-class DICONDENDEIndication(FileDataset):
-    def __init__(self, file_path, object, file_meta=FileMetaDataset()):
-        super().__init__(file_path, object, file_meta=file_meta)
+class DICONDENDEIndication(Dataset):
+    def __init__(self):
+        super().__init__()
 
     @property
     def evaluatorSequence(self) -> list[EvaluatorSequenceElement]:
