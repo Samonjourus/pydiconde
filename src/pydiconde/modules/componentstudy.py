@@ -17,7 +17,7 @@ class ReferencedStudySequenceElement(Dataset):
         return self[Tag(0x0020,0x000D)].value
 
     @studyInstanceUID.setter
-    def studyInstanceUID(self, value: list[str]):
+    def studyInstanceUID(self, value: str):
         self.add_new(Tag(0x0020,0x000D), "UI", value)
 
     @property
@@ -29,7 +29,7 @@ class ReferencedStudySequenceElement(Dataset):
         return self[Tag(0x0020,0x000E)].value
 
     @seriesInstanceUID.setter
-    def seriesInstanceUID(self, value: list[str]):
+    def seriesInstanceUID(self, value: str):
         self.add_new(Tag(0x0020,0x000E), "UI", value)
 
 class DICONDEComponentStudy(FileDataset):
@@ -73,7 +73,7 @@ class DICONDEComponentStudy(FileDataset):
         self.add_new(Tag(0x0008, 0x0030), "TM", value)
 
     @property
-    def studyID(self) -> str:
+    def studyID(self) -> str | None:
         """ The study ID to be assigned to tag (0020,0010).
 
         The value is expected to be a short text. The field is required, but can be zero-valued.
@@ -81,11 +81,11 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0020, 0x0010)].value
 
     @studyID.setter
-    def studyID(self, value: str):
+    def studyID(self, value: str | None):
         self.add_new(Tag(0x0020, 0x0010), "SH", value)
 
     @property
-    def accessionNumber(self) -> str:
+    def accessionNumber(self) -> str | None:
         """ The accession number to be assigned to tag (0008,0050).
 
         The value is expected to be a short text. The field is required, but can be zero-valued.
@@ -93,11 +93,11 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0008, 0x0050)].value
 
     @accessionNumber.setter
-    def accessionNumber(self, value: str):
+    def accessionNumber(self, value: str | None):
         self.add_new(Tag(0x0008,0x0050), "SH", value)
 
     @property
-    def componentOwnerName(self) -> str:
+    def componentOwnerName(self) -> str | None:
         """ The component owner name to be assigned to tag (0008,0090).
 
         The value is expected to be a patient name. The field is required, but can be zero-valued.
@@ -105,11 +105,11 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0008, 0x0090)].value
 
     @componentOwnerName.setter
-    def componentOwnerName(self, value: str):
+    def componentOwnerName(self, value: str | None):
         self.add_new(Tag(0x0008,0x0090), "PN", value)
 
     @property
-    def inspectingCompanyName(self) -> str:
+    def inspectingCompanyName(self) -> str | None:
         """ The inspecting company name to be assigned to tag (0008,1048).
 
         The value is expected to be a patient name. The field is required, but can be zero-valued.
@@ -117,11 +117,11 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0008, 0x1048)].value
 
     @inspectingCompanyName.setter
-    def inspectingCompanyName(self, value: str):
+    def inspectingCompanyName(self, value: str | None):
         self.add_new(Tag(0x0008,0x1048), "PN", value)
 
     @property
-    def certifyingInspectorName(self) -> str:
+    def certifyingInspectorName(self) -> str | None:
         """ The certifying inspector name to be assigned to tag (0008,1060).
 
         The value is expected to be a patient name. The field is required, but can be zero-valued.
@@ -129,11 +129,11 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0008, 0x1060)].value
 
     @certifyingInspectorName.setter
-    def certifyingInspectorName(self, value: str):
+    def certifyingInspectorName(self, value: str | None):
         self.add_new(Tag(0x0008,0x1060), "PN", value)
 
     @property
-    def studyDescription(self) -> str:
+    def studyDescription(self) -> str | None:
         """ The study description to be assigned to tag (0008,1030).
 
         The value is expected to be a long string. The field is required, but can be zero-valued.
@@ -141,11 +141,11 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0008, 0x1030)].value
 
     @studyDescription.setter
-    def studyDescription(self, value: str):
+    def studyDescription(self, value: str | None):
         self.add_new(Tag(0x0008,0x1030), "LO", value)
 
     @property
-    def referencedStudySequence(self) -> list[ReferencedStudySequenceElement]:
+    def referencedStudySequence(self) -> list[ReferencedStudySequenceElement] | None:
         """ The referenced study sequence to be assigned to tag (0008,1110).
 
         The value is expected to be a sequence. The field is not required.
@@ -153,11 +153,11 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0008, 0x1110)].value
 
     @referencedStudySequence.setter
-    def referencedStudySequence(self, value: list[ReferencedStudySequenceElement]):
+    def referencedStudySequence(self, value: list[ReferencedStudySequenceElement] | None):
         self.add_new(Tag(0x0008,0x1110), "SQ", value)
 
     @property
-    def examinationNotes(self) -> str:
+    def examinationNotes(self) -> str | None:
         """ The examination notes to be assigned to tag (0032,4000).
 
         The value is expected to be a long text. The field is required, but can be zero-valued.
@@ -165,11 +165,11 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0008, 0x1060)].value
 
     @examinationNotes.setter
-    def examinationNotes(self, value: str):
+    def examinationNotes(self, value: str | None):
         self.add_new(Tag(0x0008,0x1060), "LT", value)
 
     @property
-    def expiryDate(self) -> datetime:
+    def expiryDate(self) -> datetime | None:
         """ The expiry date to be assigned to tag (0014,1020).
 
         The value is expected to be a date. The field is required, but can be zero-valued.
@@ -177,5 +177,5 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0014,0x1020)].value
 
     @expiryDate.setter
-    def expiryDate(self, value: datetime):
-        self.add_new(Tag(0x0014,0x1020), "PN", value)
+    def expiryDate(self, value: datetime | None):
+        self.add_new(Tag(0x0014,0x1020), "DA", value)

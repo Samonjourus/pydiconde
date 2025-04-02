@@ -22,95 +22,23 @@ class otherComponentIDsSequenceElement(Dataset):
         super().__init__()
 
     @property
-    def otherComponentNames(self) -> list[str]:
+    def otherComponentNames(self) -> list[str] | None:
         """ The component names to be assigned to tag (0010,1001).
 
         The value is expected to be a person name, but not required.
         """
         return self[Tag(0x0010, 0x1001)].value
 
-    @property
-    def componentManufacturingDate(self) -> datetime:
-        """ The component manufacturing date to be assigned to tag (0010,0030).
-
-        The value is expected to be a date. The value is required, but can be zero-valued.
-        """
-        return self[Tag(0x0010, 0x0030)].value
-
-    @property
-    def patientSex(self) -> str:
-        """ The patient sex to be assigned to tag (0010,0040).
-
-        The value is required to be a code string, but should be set to 'O'.
-        """
-        return self[Tag(0x0010, 0x0040)].value
-
-    @property
-    def componentNotes(self) -> str:
-        """ The component notes to be assigned to tag (0010,4000).
-
-        This field is optional, but if defined, should be a long text.
-        """
-        return self[Tag(0x0010, 0x4000)].value
-
-    @property
-    def componentManufacturingProcedure(self) -> str:
-        """ The component manufacturing procedure to be assigned to tag (0014,0025).
-
-        This field is optional, but if defined, should be a short text.
-        """
-        return self[Tag(0x0014, 0x0025)].value
-
-    @property
-    def componentManufacturer(self) -> str:
-        """ The component manufacturer to be assigned to tag (0014,0028).
-
-        This field is optional, but if defined, should be a short text.
-        """
-        return self[Tag(0x0014,0x0028)].value
-
-    @property
-    def componentWelderIDs(self) -> str:
-        """ The component welder IDs to be assigned to tag (0014,0100).
-
-        This field is optional, but if defined, should be long text.
-        """
-        return self[Tag(0x0014,0x0100)].value
-
     @otherComponentNames.setter
-    def otherComponentNames(self, value: list[str]):
+    def otherComponentNames(self, value: list[str] | None):
         self.add_new(Tag(0x0010, 0x1001), "PN", value)
-
-    @componentManufacturingDate.setter
-    def componentManufacturingDate(self, value: datetime):
-        self.add_new(Tag(0x0010, 0x0030), "DA", value)
-
-    @patientSex.setter
-    def patientSex(self, value: str):
-        self.add_new(Tag(0x0010, 0x0040), "CS", value)
-
-    @componentNotes.setter
-    def componentNotes(self, value: str):
-        self.add_new(Tag(0x0010, 0x4000), "LT", value)
-
-    @componentManufacturingProcedure.setter
-    def componentManufacturingProcedure(self, value: str):
-        self.add_new(Tag(0x0014, 0x0025), "ST", value)
-
-    @componentWelderIDs.setter
-    def componentWelderIDs(self, value: str):
-        self.add_new(Tag(0x0014, 0x0100), "ST", value)
-
-    @componentManufacturer.setter
-    def componentManufacturer(self, value: str):
-        self.add_new(Tag(0x0014, 0x0028), "ST", value)
 
 class DICONDEComponent(FileDataset):
     def __init__(self, file_path, object, file_meta=FileMetaDataset()):
         super().__init__(file_path, object, file_meta=file_meta)
 
     @property
-    def componentName(self) -> str:
+    def componentName(self) -> str | None:
         """ The component name to be assigned to tag (0010,0010).
 
         The value is expected to be a name. The field is required, but can be
@@ -119,7 +47,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0010, 0x0010)].value
 
     @property
-    def componentIDNumber(self) -> str:
+    def componentIDNumber(self) -> str | None:
         """ The component ID to be assigned to tag (0010,0020).
 
         The value is expected to be an ID. The field is required, but can be
@@ -136,7 +64,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0010, 0x1002)].value
 
     @property
-    def materialName(self) -> str:
+    def materialName(self) -> str | None:
         """ The material name, assigned to tag (0010,2160).
 
         The value is expected to be a short text. The field is required, but can be zero-valued.
@@ -144,7 +72,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0010, 0x2160)].value
 
     @property
-    def materialGrade(self) -> str:
+    def materialGrade(self) -> str | None:
         """ The material grade, assigned to tag (0014,0042).
 
         The value is expected to be a short text. The field is not required.
@@ -152,7 +80,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014, 0x0042)].value
 
     @property
-    def materialPropertiesDescription(self) -> str:
+    def materialPropertiesDescription(self) -> str | None:
         """ The material properties description, assigned to tag (0014,0044).
 
         The value is expected to be a short text. The field is not required.
@@ -160,7 +88,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014, 0x0044)].value
 
     @property
-    def materialNotes(self) -> str:
+    def materialNotes(self) -> str | None:
         """ The material notes, assigned to tag (0014,0044).
 
         The value is expected to be a long text. The field is not required.
@@ -168,7 +96,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014, 0x0046)].value
 
     @property
-    def materialThickness(self) -> float:
+    def materialThickness(self) -> float | None:
         """ The material thickness, assigned to tag (0014,0030).
 
         The value is expected to be a decimal string. The field is not required.
@@ -176,7 +104,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014, 0x0030)].value
 
     @property
-    def componentShape(self) -> ComponentShape:
+    def componentShape(self) -> ComponentShape | None:
         """ The material thickness, assigned to tag (0014,0050).
 
         The value is expected to be a ComponentShape. The field is not required.
@@ -184,7 +112,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014,0x0050)].value
 
     @property
-    def curvatureType(self) -> CurvatureType:
+    def curvatureType(self) -> CurvatureType | None:
         """ The material thickness, assigned to tag (0014,0052).
 
         The value is expected to be a CurvatureType. The field is not required.
@@ -192,7 +120,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014,0x0050)].value
 
     @property
-    def outerDiameter(self):
+    def outerDiameter(self) -> float | None:
         """ The outer diameter of the specimen in mm, assigned to tag (0014,0054).
 
         The value is expected to be a decimal string. The field is not required.
@@ -200,62 +128,133 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014,0x0054)].value
 
     @property
-    def innerDiameter(self):
+    def innerDiameter(self) -> float | None:
         """ The inner diameter of the specimen in mm, assigned to tag (0014,0055).
 
         The value is expected to be a decimal string. The field is not required.
         """
         return self[Tag(0x0014,0x0056)].value
 
+    @property
+    def componentManufacturingDate(self) -> datetime | None:
+        """ The component manufacturing date to be assigned to tag (0010,0030).
+
+        The value is expected to be a date. The value is required, but can be zero-valued.
+        """
+        return self[Tag(0x0010, 0x0030)].value
+
+    @property
+    def patientSex(self) -> str | None:
+        """ The patient sex to be assigned to tag (0010,0040).
+
+        The value is required to be a code string, but should be set to 'O'.
+        """
+        return self[Tag(0x0010, 0x0040)].value
+
+    @property
+    def componentNotes(self) -> str | None:
+        """ The component notes to be assigned to tag (0010,4000).
+
+        This field is optional, but if defined, should be a long text.
+        """
+        return self[Tag(0x0010, 0x4000)].value
+
+    @property
+    def componentManufacturingProcedure(self) -> str | None:
+        """ The component manufacturing procedure to be assigned to tag (0014,0025).
+
+        This field is optional, but if defined, should be a short text.
+        """
+        return self[Tag(0x0014, 0x0025)].value
+
+    @property
+    def componentManufacturer(self) -> str | None:
+        """ The component manufacturer to be assigned to tag (0014,0028).
+
+        This field is optional, but if defined, should be a short text.
+        """
+        return self[Tag(0x0014,0x0028)].value
+
+    @property
+    def componentWelderIDs(self) -> str | None:
+        """ The component welder IDs to be assigned to tag (0014,0100).
+
+        This field is optional, but if defined, should be long text.
+        """
+        return self[Tag(0x0014,0x0100)].value
+
     @materialName.setter
-    def materialName(self, value: str):
+    def materialName(self, value: str | None):
         self.add_new(Tag(0x0014,0x2160), "SH", value)
 
     @materialPropertiesDescription.setter
-    def materialPropertiesDescription(self, value: str):
+    def materialPropertiesDescription(self, value: str | None):
         self.add_new(Tag(0x0014,0x0044), "ST", value)
 
     @materialNotes.setter
-    def materialNotes(self, value: str):
+    def materialNotes(self, value: str | None):
         self.add_new(Tag(0x0014,0x0046), "LT", value)
 
     @materialThickness.setter
-    def materialThickness(self, value: float):
+    def materialThickness(self, value: float | None):
         self.add_new(Tag(0x0014,0x0030), "DS", value)
 
     @componentShape.setter
-    def componentShape(self, value: str):
+    def componentShape(self, value: str | None):
         self.add_new(Tag(0x0014,0x0050), "CS", value)
 
     @curvatureType.setter
-    def curvatureType(self, value: str):
+    def curvatureType(self, value: str | None):
         self.add_new(Tag(0x0014,0x0052), "CS", value)
 
     @outerDiameter.setter
-    def outerDiameter(self, value: str):
+    def outerDiameter(self, value: str | None):
         self.add_new(Tag(0x0014,0x0054), "DS", value)
 
     @innerDiameter.setter
-    def innerDiameter(self, value: float):
+    def innerDiameter(self, value: float | None):
         self.add_new(Tag(0x0014,0x0056), "DS", value)
 
     @componentName.setter
-    def componentName(self, value: str):
+    def componentName(self, value: str | None):
         self.add_new(Tag(0x0010, 0x0010), "PN", value)
 
     @materialGrade.setter
-    def materialGrade(self, value: str):
+    def materialGrade(self, value: str | None):
         self.add_new(Tag(0x0014,0x0042), "ST", value)
 
     @componentIDNumber.setter
-    def componentIDNumber(self, value: str):
+    def componentIDNumber(self, value: str | None):
         self.add_new(Tag(0x0010,0x0020), "LO", value)
 
     @otherComponentIDsSequence.setter
-    def otherComponentIDsSequence(self, value:list[otherComponentIDsSequenceElement]):
+    def otherComponentIDsSequence(self, value:list[otherComponentIDsSequenceElement] | None):
         self.add_new(Tag(0x0010, 0x1002), "SQ", value)
 
     @componentIDNumber.setter
-    def componentIDNumber(self, value: str):
+    def componentIDNumber(self, value: str | None):
         self.add_new(Tag(0x0010, 0x0020), "LO", value)
 
+    @componentManufacturingDate.setter
+    def componentManufacturingDate(self, value: datetime | None):
+        self.add_new(Tag(0x0010, 0x0030), "DA", value)
+
+    @patientSex.setter
+    def patientSex(self, value: str | None):
+        self.add_new(Tag(0x0010, 0x0040), "CS", value)
+
+    @componentNotes.setter
+    def componentNotes(self, value: str | None):
+        self.add_new(Tag(0x0010, 0x4000), "LT", value)
+
+    @componentManufacturingProcedure.setter
+    def componentManufacturingProcedure(self, value: str | None):
+        self.add_new(Tag(0x0014, 0x0025), "ST", value)
+
+    @componentWelderIDs.setter
+    def componentWelderIDs(self, value: str | None):
+        self.add_new(Tag(0x0014, 0x0100), "ST", value)
+
+    @componentManufacturer.setter
+    def componentManufacturer(self, value: str | None):
+        self.add_new(Tag(0x0014, 0x0028), "ST", value)
