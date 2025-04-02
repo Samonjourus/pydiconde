@@ -11,7 +11,3 @@ license = { text = "MIT" }
 dependencies = [
   "pydicom"
 ]
-
-[tool.setuptools]
-packages = ["pythonCDD"]
-package-dir = {"" = "src"}
