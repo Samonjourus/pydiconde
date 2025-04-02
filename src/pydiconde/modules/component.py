@@ -24,7 +24,7 @@ class otherComponentIDsSequenceElement(Dataset):
     def otherComponentNames(self) -> list[str] | None:
         """ The component names to be assigned to tag (0010,1001).
 
-        The value is expected to be a person name, but not required.
+        The value is expected to be a name, but not required.
         """
         return self[Tag(0x0010, 0x1001)].value
 
@@ -47,9 +47,9 @@ class DICONDEComponent(Dataset):
 
     @property
     def componentIDNumber(self) -> str | None:
-        """ The component ID to be assigned to tag (0010,0020).
+        """ The component ID number to be assigned to tag (0010,0020).
 
-        The value is expected to be an ID. The field is required, but can be
+        The value is expected to be a long string. The field is required, but can be
         zero-valued.
         """
         return self[Tag(0x0010, 0x0020)].value

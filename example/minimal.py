@@ -13,6 +13,9 @@ from pydicom.uid import UID, ExplicitVRLittleEndian
 config.INVALID_KEYWORD_BEHAVIOR = "IGNORE" # we're adding non-DICOM fields
 image_data = np.uint16(np.random.rand(128, 128) * 65535) # sample image data
 
+# Optional: use Diconde naming
+Diconde.use_diconde_names()
+
 # create diconde file
 diconde_file = Diconde()
 
