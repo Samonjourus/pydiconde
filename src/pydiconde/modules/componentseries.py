@@ -1,7 +1,7 @@
 from pydicom import FileDataset
 from pydicom.dataset import Dataset, FileMetaDataset
 from pydicom.tag import Tag
-from datetime import datetime
+from datetime import datetime, time
 
 
 class RelatedSeriesSequenceElement(Dataset):
@@ -86,7 +86,7 @@ class DICONDEComponentSeries(FileDataset):
         self.add_new(Tag(0x0008, 0x0021), "DA", value)
 
     @property
-    def seriesTime(self) -> datetime:
+    def seriesTime(self) -> time:
         """ The study time to be assigned to tag (0008,0031).
 
         The value is expected to be a time. The field is required.
@@ -94,7 +94,7 @@ class DICONDEComponentSeries(FileDataset):
         return self[Tag(0x0008, 0x0031)].value
 
     @seriesTime.setter
-    def seriesTime(self, value: datetime):
+    def seriesTime(self, value: time):
         self.add_new(Tag(0x0008, 0x0031), "TM", value)
 
     @property

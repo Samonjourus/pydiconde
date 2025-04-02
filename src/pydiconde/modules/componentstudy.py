@@ -1,7 +1,7 @@
 from pydicom import FileDataset
 from pydicom.dataset import Dataset, FileMetaDataset
 from pydicom.tag import Tag
-from datetime import datetime
+from datetime import datetime, time
 
 
 class ReferencedStudySequenceElement(Dataset):
@@ -61,7 +61,7 @@ class DICONDEComponentStudy(FileDataset):
         self.add_new(Tag(0x0008, 0x0020), "DA", value)
 
     @property
-    def studyTime(self) -> datetime:
+    def studyTime(self) -> time:
         """ The study time to be assigned to tag (0008,0030).
 
         The value is expected to be a time. The field is required.
@@ -69,7 +69,7 @@ class DICONDEComponentStudy(FileDataset):
         return self[Tag(0x0008, 0x0030)].value
 
     @studyTime.setter
-    def studyTime(self, value: datetime):
+    def studyTime(self, value: time):
         self.add_new(Tag(0x0008, 0x0030), "TM", value)
 
     @property

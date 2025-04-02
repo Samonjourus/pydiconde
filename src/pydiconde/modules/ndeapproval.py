@@ -1,7 +1,7 @@
 from pydicom import FileDataset
 from pydicom.dataset import Dataset, FileMetaDataset
 from pydicom.tag import Tag
-from datetime import datetime
+from datetime import datetime, time
 
 
 class MultipleComponentApprovalElement(Dataset):
@@ -85,7 +85,7 @@ class DICONDENDEApproval(FileDataset):
         self.add_new(Tag(0x300E,0x0004), "DA", value)
 
     @property
-    def reviewTime(self) -> datetime:
+    def reviewTime(self) -> time:
         """ The review time to be assigned to tag (300E,0005).
 
         The value is expected to be a unique identifier. The field is required.
@@ -93,7 +93,7 @@ class DICONDENDEApproval(FileDataset):
         return self[Tag(0x300E,0x0005)].value
 
     @reviewTime.setter
-    def reviewTime(self, value: datetime):
+    def reviewTime(self, value: time):
         self.add_new(Tag(0x300E,0x0005), "TM", value)
 
 
@@ -134,7 +134,7 @@ class DICONDENDEApproval(FileDataset):
         self.add_new(Tag(0x0014,0x0102), "DA", value)
 
     @property
-    def secondaryReviewTime(self) -> datetime:
+    def secondaryReviewTime(self) -> time:
         """ The secondary review time to be assigned to tag (0014,0103).
 
         The value is expected to be a time. The field is required.
@@ -142,7 +142,7 @@ class DICONDENDEApproval(FileDataset):
         return self[Tag(0x0014,0x0103)].value
 
     @secondaryReviewTime.setter
-    def secondaryReviewTime(self, value: str):
+    def secondaryReviewTime(self, value: time):
         self.add_new(Tag(0x0014,0x0103), "TM", value)
 
     @property
