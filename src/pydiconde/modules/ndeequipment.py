@@ -8,7 +8,7 @@ class DICONDENDEquipment(FileDataset):
         super().__init__(file_path, object, file_meta=file_meta)
 
     @property
-    def softwareVersions(self) -> str:
+    def softwareVersions(self) -> list[str]:
         """ The software versions to be assigned to tag (0018,1020).
 
         The value is expected to be a long string. The field is required.
@@ -16,11 +16,11 @@ class DICONDENDEquipment(FileDataset):
         return self[Tag(0x0018, 0x1020)].value
 
     @softwareVersions.setter
-    def softwareVersions(self, value: str):
+    def softwareVersions(self, value: list[str]):
         self.add_new(Tag(0x0018, 0x1020), "LO", value)
 
     @property
-    def manufacturer(self) -> str:
+    def manufacturer(self) -> str | None:
         """ The manufacturer to be assigned to tag (0008,0070).
 
         The value is expected to be a long string. The field is required, but can be zero-valued.
@@ -28,7 +28,7 @@ class DICONDENDEquipment(FileDataset):
         return self[Tag(0x0008, 0x0070)].value
 
     @manufacturer.setter
-    def manufacturer(self, value: str):
+    def manufacturer(self, value: str | None):
         self.add_new(Tag(0x0008,0x0070), "LO", value)
 
     @property
