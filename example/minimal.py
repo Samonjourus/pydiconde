@@ -5,6 +5,9 @@ fields are ignored.
 """ 
 from pydiconde import Diconde
 from datetime import datetime, timezone
+from pydicom import config
+
+config.INVALID_KEYWORD_BEHAVIOR = "IGNORE"
 
 # create diconde file
 diconde_file = Diconde("./minimal.diconde", {})
@@ -19,7 +22,7 @@ diconde_file.materialName = ""
 # fill out component study module
 diconde_file.studyInstanceUID = "1.2.840.49258.3.152.235.2.12.187636473" 
 diconde_file.studyDate = datetime.now()
-diconde_file.studyTime = datetime.now()
+diconde_file.studyTime = datetime.now().time()
 diconde_file.studyID = ""
 diconde_file.accessionNumber = ""
 diconde_file.componentOwnerName = ""
