@@ -22,7 +22,7 @@ class otherComponentIDsSequenceElement(Dataset):
         super().__init__()
 
     @property
-    def otherComponentNames(self) -> list[str]:
+    def otherComponentNames(self) -> list[str] | None:
         """ The component names to be assigned to tag (0010,1001).
 
         The value is expected to be a person name, but not required.
@@ -30,7 +30,7 @@ class otherComponentIDsSequenceElement(Dataset):
         return self[Tag(0x0010, 0x1001)].value
 
     @otherComponentNames.setter
-    def otherComponentNames(self, value: list[str]):
+    def otherComponentNames(self, value: list[str] | None):
         self.add_new(Tag(0x0010, 0x1001), "PN", value)
 
 class DICONDEComponent(FileDataset):
@@ -38,7 +38,7 @@ class DICONDEComponent(FileDataset):
         super().__init__(file_path, object, file_meta=file_meta)
 
     @property
-    def componentName(self) -> str:
+    def componentName(self) -> str | None:
         """ The component name to be assigned to tag (0010,0010).
 
         The value is expected to be a name. The field is required, but can be
@@ -47,7 +47,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0010, 0x0010)].value
 
     @property
-    def componentIDNumber(self) -> str:
+    def componentIDNumber(self) -> str | None:
         """ The component ID to be assigned to tag (0010,0020).
 
         The value is expected to be an ID. The field is required, but can be
@@ -64,7 +64,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0010, 0x1002)].value
 
     @property
-    def materialName(self) -> str:
+    def materialName(self) -> str | None:
         """ The material name, assigned to tag (0010,2160).
 
         The value is expected to be a short text. The field is required, but can be zero-valued.
@@ -72,7 +72,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0010, 0x2160)].value
 
     @property
-    def materialGrade(self) -> str:
+    def materialGrade(self) -> str | None:
         """ The material grade, assigned to tag (0014,0042).
 
         The value is expected to be a short text. The field is not required.
@@ -80,7 +80,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014, 0x0042)].value
 
     @property
-    def materialPropertiesDescription(self) -> str:
+    def materialPropertiesDescription(self) -> str | None:
         """ The material properties description, assigned to tag (0014,0044).
 
         The value is expected to be a short text. The field is not required.
@@ -88,7 +88,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014, 0x0044)].value
 
     @property
-    def materialNotes(self) -> str:
+    def materialNotes(self) -> str | None:
         """ The material notes, assigned to tag (0014,0044).
 
         The value is expected to be a long text. The field is not required.
@@ -96,7 +96,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014, 0x0046)].value
 
     @property
-    def materialThickness(self) -> float:
+    def materialThickness(self) -> float | None:
         """ The material thickness, assigned to tag (0014,0030).
 
         The value is expected to be a decimal string. The field is not required.
@@ -104,7 +104,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014, 0x0030)].value
 
     @property
-    def componentShape(self) -> ComponentShape:
+    def componentShape(self) -> ComponentShape | None:
         """ The material thickness, assigned to tag (0014,0050).
 
         The value is expected to be a ComponentShape. The field is not required.
@@ -112,7 +112,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014,0x0050)].value
 
     @property
-    def curvatureType(self) -> CurvatureType:
+    def curvatureType(self) -> CurvatureType | None:
         """ The material thickness, assigned to tag (0014,0052).
 
         The value is expected to be a CurvatureType. The field is not required.
@@ -120,7 +120,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014,0x0050)].value
 
     @property
-    def outerDiameter(self):
+    def outerDiameter(self) -> float | None:
         """ The outer diameter of the specimen in mm, assigned to tag (0014,0054).
 
         The value is expected to be a decimal string. The field is not required.
@@ -128,7 +128,7 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014,0x0054)].value
 
     @property
-    def innerDiameter(self):
+    def innerDiameter(self) -> float | None:
         """ The inner diameter of the specimen in mm, assigned to tag (0014,0055).
 
         The value is expected to be a decimal string. The field is not required.
@@ -184,55 +184,55 @@ class DICONDEComponent(FileDataset):
         return self[Tag(0x0014,0x0100)].value
 
     @materialName.setter
-    def materialName(self, value: str):
+    def materialName(self, value: str | None):
         self.add_new(Tag(0x0014,0x2160), "SH", value)
 
     @materialPropertiesDescription.setter
-    def materialPropertiesDescription(self, value: str):
+    def materialPropertiesDescription(self, value: str | None):
         self.add_new(Tag(0x0014,0x0044), "ST", value)
 
     @materialNotes.setter
-    def materialNotes(self, value: str):
+    def materialNotes(self, value: str | None):
         self.add_new(Tag(0x0014,0x0046), "LT", value)
 
     @materialThickness.setter
-    def materialThickness(self, value: float):
+    def materialThickness(self, value: float | None):
         self.add_new(Tag(0x0014,0x0030), "DS", value)
 
     @componentShape.setter
-    def componentShape(self, value: str):
+    def componentShape(self, value: str | None):
         self.add_new(Tag(0x0014,0x0050), "CS", value)
 
     @curvatureType.setter
-    def curvatureType(self, value: str):
+    def curvatureType(self, value: str | None):
         self.add_new(Tag(0x0014,0x0052), "CS", value)
 
     @outerDiameter.setter
-    def outerDiameter(self, value: str):
+    def outerDiameter(self, value: str | None):
         self.add_new(Tag(0x0014,0x0054), "DS", value)
 
     @innerDiameter.setter
-    def innerDiameter(self, value: float):
+    def innerDiameter(self, value: float | None):
         self.add_new(Tag(0x0014,0x0056), "DS", value)
 
     @componentName.setter
-    def componentName(self, value: str):
+    def componentName(self, value: str | None):
         self.add_new(Tag(0x0010, 0x0010), "PN", value)
 
     @materialGrade.setter
-    def materialGrade(self, value: str):
+    def materialGrade(self, value: str | None):
         self.add_new(Tag(0x0014,0x0042), "ST", value)
 
     @componentIDNumber.setter
-    def componentIDNumber(self, value: str):
+    def componentIDNumber(self, value: str | None):
         self.add_new(Tag(0x0010,0x0020), "LO", value)
 
     @otherComponentIDsSequence.setter
-    def otherComponentIDsSequence(self, value:list[otherComponentIDsSequenceElement]):
+    def otherComponentIDsSequence(self, value:list[otherComponentIDsSequenceElement] | None):
         self.add_new(Tag(0x0010, 0x1002), "SQ", value)
 
     @componentIDNumber.setter
-    def componentIDNumber(self, value: str):
+    def componentIDNumber(self, value: str | None):
         self.add_new(Tag(0x0010, 0x0020), "LO", value)
 
     @componentManufacturingDate.setter
