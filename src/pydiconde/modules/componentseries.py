@@ -36,6 +36,7 @@ class DICONDEComponentSeries(FileDataset):
     def __init__(self, file_path, object, file_meta=FileMetaDataset()):
         super().__init__(file_path, object, file_meta=file_meta)
 
+    # TODO: make this into an enum
     @property
     def modality(self) -> str:
         """ The modality to be assigned to tag (0008,0060).
@@ -61,7 +62,7 @@ class DICONDEComponentSeries(FileDataset):
         self.add_new(Tag(0x0020, 0x000D), "UI", value)
 
     @property
-    def seriesNumber(self) -> int:
+    def seriesNumber(self) -> int | None:
         """ The series date to be assigned to tag (0020,000E).
 
         The value is expected to be a integer. The field is required.
@@ -69,7 +70,7 @@ class DICONDEComponentSeries(FileDataset):
         return self[Tag(0x0020, 0x000E)].value
 
     @seriesNumber.setter
-    def seriesNumber(self, value: int):
+    def seriesNumber(self, value: int | None):
         self.add_new(Tag(0x0020, 0x000E), "IS", value)
 
     @property
