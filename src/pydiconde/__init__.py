@@ -6,6 +6,8 @@ from .modules.ndegeometry import DICONDENDEGeometry
 from .modules.ndeindication import DICONDENDEIndication
 from pydicom.datadict import add_dict_entries
 
+TGImageStorage = "1.2.840.10008.5.1.4.1.1.601.3"
+
 class Diconde(DICONDEComponent, DICONDEComponentSeries, DICONDEComponentStudy, DICONDENDEquipment, DICONDENDEGeometry, DICONDENDEIndication):
     def __init__(self):
         super().__init__()
