@@ -1,3 +1,4 @@
+from pydicom.uid import UID
 from .modules.component import DICONDEComponent
 from .modules.componentseries import DICONDEComponentSeries
 from .modules.componentstudy import DICONDEComponentStudy
