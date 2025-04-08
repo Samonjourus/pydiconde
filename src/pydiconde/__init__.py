@@ -44,6 +44,7 @@ class Diconde(DICONDEComponent, DICONDEComponentSeries, DICONDEComponentStudy, D
             0x00101001: ("PN", "1-N", "Other Component Names", "", "OtherComponentNames"),
             0x00101002: ("SQ", "1", "Other Component IDs Sequence", "", "OtherComponentIDsSequence"),
             0x00101001: ("PN", "1-N", "Other Component Names", "", "OtherComponentNames"),
+            0x00102160: ("SH", "1", "Material Name", "", "MaterialName"),
             0x00104000: ("LT", "1", "Component Notes", "", "ComponentNotes"),
             0x00140025: ("ST", "1", "Component Manufacturing Procedure", "", "ComponentManufacturingProcedure"),
             0x00140028: ("ST", "1", "Component Manufacturer", "", "Component Manufacturer"),
