@@ -64,7 +64,6 @@ class Diconde(DICONDEComponent, DICONDEComponentSeries, DICONDEComponentStudy, D
             0x00141010: ("ST", "1", "Actual Environmental Conditions", "", "ActualEnvironmentalConditions"),
             0x00141020: ("DA", "1", "Expiry Date", "", "ExpiryDate"),
             0x00141040: ("ST", "1", "Environmental Conditions", "", "EnvironmentalConditions"),
-            0x00142160: ("SH", "1", "Material Name", "", "MaterialName"),
             0x00181020: ("LO", "1-N", "Software Versions", "", "SoftwareVersion"),
             0x00181000: ("LO", "1", "Device Serial Number", "", "DeviceSerialNumber"),
             0x00181008: ("LO", "1", "Scanner ID", "", "ScannerID"),
