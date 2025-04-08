@@ -188,7 +188,7 @@ class DICONDEComponent(Dataset):
 
     @materialPropertiesDescription.setter
     def materialPropertiesDescription(self, value: str | None):
-        self.add_new(Tag(0x0014,0x0044), "ST", value)
+        self.add_new(Tag(0x0010,0x0044), "ST", value)
 
     @materialNotes.setter
     def materialNotes(self, value: str | None):
