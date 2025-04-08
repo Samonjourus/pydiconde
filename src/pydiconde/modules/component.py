@@ -68,7 +68,7 @@ class DICONDEComponent(Dataset):
 
         The value is expected to be a short text. The field is required, but can be zero-valued.
         """
-        return self[Tag(0x0014, 0x2160)].value
+        return self[Tag(0x0010, 0x2160)].value
 
     @property
     def materialGrade(self) -> str | None:
@@ -184,7 +184,7 @@ class DICONDEComponent(Dataset):
 
     @materialName.setter
     def materialName(self, value: str | None):
-        self.add_new(Tag(0x0014,0x2160), "SH", value)
+        self.add_new(Tag(0x0010,0x2160), "SH", value)
 
     @materialPropertiesDescription.setter
     def materialPropertiesDescription(self, value: str | None):
