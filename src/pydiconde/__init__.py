@@ -16,7 +16,6 @@ class Diconde(DICONDEComponent, DICONDEComponentSeries, DICONDEComponentStudy, D
         # sorted address
         entries = {
             0x00080020: ("DA", "1", "Study Date", "", "StudyDate"),
-<<<<<<< HEAD
             0x00080021: ("DA", "1", "Series Date", "", "SeriesDate"),
             0x00080030: ("TM", "1", "Study Time", "", "StudyTime"),
             0x00080031: ("TM", "1", "Series Time", "", "SeriesTime"),
@@ -37,15 +36,6 @@ class Diconde(DICONDEComponent, DICONDEComponentSeries, DICONDEComponentStudy, D
             0x00081070: ("PN", "1-N", "Operator Name", "", "OperatorName"),
             0x00081110: ("SQ", "1", "Referenced Study Sequence", "", "ReferencedStudySequence"),
             0x00081250: ("SQ", "1-N", "Related Series Sequence", "", "RelatedSeriesSequence"),
-=======
-            0x00080030: ("TM", "1", "Study Time", "", "StudyTime"),
-            0x00080050: ("SH", "1", "Accession Number", "", "AccessionNumber"),
-            0x00080090: ("PN", "1", "Component Owner Name", "", "ComponentOwnerName"),
-            0x00081048: ("PN", "1", "Inspecting Company Name", "", "InspectingCompanyName"),
-            0x00081030: ("LO", "1", "Study Description", "", "StudyDescription"),
-            0x00081060: ("PN", "1", "Certifying Inspector Name", "", "CertifyingInspectorName"),
-            0x00081110: ("SQ", "1", "Referenced Study Sequence", "", "ReferencedStudySequence"),
->>>>>>> 73b1ba802a75a1a1894f5750cfe8432b9bf58bec
             0x00100010: ("PN", "1", "Component Name", "", "ComponentName"),
             0x00100020: ("LO", "1", "Component ID Number", "", "ComponentIDNumber"),
             0x00100030: ("DA", "1", "Component Manufacturing Date", "", "ComponentManufacturingDate"),
