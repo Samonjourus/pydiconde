@@ -117,5 +117,9 @@ class Diconde(DICONDEComponent, DICONDEComponentSeries, DICONDEComponentStudy, D
             0x00700021: ("US", "1", "Number of ROI Contour Points", "", "NumberOfROIContourPoints"),
             0x00700022: ("US", "2-N", "Indication ROI Contour Data", "", "IndicationROIContourData"),
             0x00700023: ("CS", "1", "Indication ROI Geometric Type", "", "IndicationROIGeometricType"),
+            0x300E0002: ("CS", "1", "Approval Status", "", "ApprovalStatus"),
+            0x300E0004: ("DA", "1", "Review Date", "", "ReviewDate"),
+            0x300E0005: ("TM", "1", "Review Time", "", "ReviewTime"),
+            0x300E0008: ("PN", "1", "Reviewer Name", "", "ReviewerName"),
         }
         add_dict_entries(entries)
