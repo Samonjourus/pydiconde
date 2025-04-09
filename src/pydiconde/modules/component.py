@@ -128,7 +128,13 @@ class DICONDEComponent(Dataset):
 
         The value is expected to be a CurvatureType. The field is not required.
         """
-        return self[Tag(0x0014,0x0050)].value
+        x = self[Tag(0x0014,0x0052)].value
+        if x == "FLAT":
+            return CurvatureType.CONCAVE
+        elif x == "CONVEX":
+            return CurvatureType.CONVEX
+        elif x == "COMPOUND":
+            return CurvatureType.COMPOUND
 
     @property
     def outerDiameter(self) -> float | None:
@@ -227,7 +233,12 @@ class DICONDEComponent(Dataset):
 
     @curvatureType.setter
     def curvatureType(self, value: str | None):
-        self.add_new(Tag(0x0014,0x0052), "CS", value)
+        if value == 0:
+            self.add_new(Tag(0x0014,0x0052), "CS", "CONCAVE")
+        elif value == 1:
+            self.add_new(Tag(0x0014,0x0052), "CS", "CONVEX")
+        elif value == 2:
+            self.add_new(Tag(0x0014,0x0052), "CS", "COMPOUND")
 
     @outerDiameter.setter
     def outerDiameter(self, value: str | None):
