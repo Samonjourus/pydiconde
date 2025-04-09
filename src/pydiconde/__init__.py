@@ -77,6 +77,6 @@ class Diconde(DICONDEComponent, DICONDEComponentSeries, DICONDEComponentStudy, D
             0x0020000E: ("UI", "1", "Series Instance UID", "", "SeriesInstanceID"),
             0x00200011: ("IS", "1", "Series Number", "", "SeriesNumber"),
             0x00324000: ("LT", "1", "Examination Notes", "", "ExaminationNotes"),
-            0x00280120: ("US", "1", "Pixel Padding Value", "", "PixelPaddingValue"),
+            0x00280120: ("US or SS", "1", "Pixel Padding Value", "", "PixelPaddingValue"),
         }
         add_dict_entries(entries)

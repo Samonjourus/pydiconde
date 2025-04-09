@@ -161,5 +161,5 @@ class DICONDENDEquipment(Dataset):
     @pixelPaddingValue.setter
     def pixelPaddingValue(self, value: int):
         # WARN: this property is shady...
-        self.add_new(Tag(0x0028,0x0120), "SS", value)
+        self.add_new(Tag(0x0028,0x0120), "US or SS", value)
 
