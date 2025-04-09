@@ -108,7 +108,19 @@ class DICONDEComponent(Dataset):
 
         The value is expected to be a ComponentShape. The field is not required.
         """
-        return self[Tag(0x0014,0x0050)].value
+        x = self[Tag(0x0014,0x0050)].value
+        if x == "FLAT":
+            return ComponentShape.FLAT
+        elif x == "CYLH":
+            return ComponentShape.HOLLOWCYLINDER
+        elif x == "CYLS":
+            return ComponentShape.SOLIDCYLINDER
+        elif x == "SPHEREH":
+            return ComponentShape.HOLLOWSPHERE
+        elif x == "SPHERES":
+            return ComponentShape.SOLIDSPHERE
+        elif x == "COMPOUND":
+            return ComponentShape.COMPOUNDCURVATURE
 
     @property
     def curvatureType(self) -> CurvatureType | None:
@@ -199,8 +211,19 @@ class DICONDEComponent(Dataset):
         self.add_new(Tag(0x0014,0x0030), "DS", value)
 
     @componentShape.setter
-    def componentShape(self, value: str | None):
-        self.add_new(Tag(0x0014,0x0050), "CS", value)
+    def componentShape(self, value: ComponentShape | None):
+        if value == 0 :
+            self.add_new(Tag(0x0014,0x0050), "CS", "FLAT")
+        elif value == 1:
+            self.add_new(Tag(0x0014,0x0050), "CS", "CYLH")
+        elif value == 2:
+            self.add_new(Tag(0x0014,0x0050), "CS", "CYLS")
+        elif value == 3:
+            self.add_new(Tag(0x0014,0x0050), "CS", "SPHEREH")
+        elif value == 4:
+            self.add_new(Tag(0x0014,0x0050), "CS", "SPHERES")
+        elif value == 5:
+            self.add_new(Tag(0x0014,0x0050), "CS", "COMPOUND")
 
     @curvatureType.setter
     def curvatureType(self, value: str | None):
