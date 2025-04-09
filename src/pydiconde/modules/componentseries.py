@@ -1,7 +1,20 @@
 from pydicom.dataset import Dataset
 from pydicom.tag import Tag
 from datetime import datetime, time
+from enum import Enum
 
+class Modality(Enum):
+    COMPUTEDRADIOGRAPHY= 0
+    MULTIFRAMECT= 1
+    ULTRASOUND= 2
+    DIGITALRADIOGRAPHY= 3
+    BORESCOPE= 4
+    SECONDARYCAPTURE= 5
+    COMPUTEDTOMOGRAPHY=6
+    MULTIFRAMEULTRASOUND = 7
+    THERMOGRAPHY = 8
+    PRESENTATIONSTATE = 9
+    REALTIMEDIGITALRADIOGRAPHY = 10
 
 class RelatedSeriesSequenceElement(Dataset):
     def __init__(self):
@@ -37,16 +50,57 @@ class DICONDEComponentSeries(Dataset):
 
     # TODO: make this into an enum
     @property
-    def modality(self) -> str:
+    def modality(self) -> Modality:
         """ The modality to be assigned to tag (0008,0060).
 
         The value is expected to be a code string. The field is required.
         """
-        return self[Tag(0x0008, 0x0060)].value
+        x = self[Tag(0x0008, 0x0060)].value
+        if x == "CR":
+            return Modality.COMPUTEDRADIOGRAPHY
+        elif x == "CT_MF":
+            return Modality.MULTIFRAMECT
+        elif x == "US":
+            return Modality.ULTRASOUND
+        elif x == "DX":
+            return Modality.DIGITALRADIOGRAPHY
+        elif x == "ES":
+            return Modality.BORESCOPE
+        elif x == "SC":
+            return Modality.SECONDARYCAPTURE
+        elif x == "CT":
+            return Modality.COMPUTEDTOMOGRAPHY
+        elif x == "US_MF" or x == "US-MF":
+            return Modality.MULTIFRAMEULTRASOUND
+        elif x == "TG":
+            return Modality.THERMOGRAPHY
+        else:
+            return Modality.REALTIMEDIGITALRADIOGRAPHY
 
     @modality.setter
-    def modality(self, value: str):
-        self.add_new(Tag(0x0008, 0x0060), "CS", value)
+    def modality(self, value: Modality):
+        if value == Modality.COMPUTEDRADIOGRAPHY:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "CR")
+        elif value == Modality.MULTIFRAMECT:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "CT_MF")
+        elif value == Modality.ULTRASOUND:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "US")
+        elif value == Modality.DIGITALRADIOGRAPHY:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "DX")
+        elif value == Modality.BORESCOPE:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "ES")
+        elif value == Modality.SECONDARYCAPTURE:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "SC")
+        elif value == Modality.COMPUTEDTOMOGRAPHY:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "CT")
+        elif value == Modality.MULTIFRAMEULTRASOUND:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "US_MF")
+        elif value == Modality.THERMOGRAPHY:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "TG")
+        elif value == Modality.PRESENTATIONSTATE:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "PR")
+        elif value == Modality.REALTIMEDIGITALRADIOGRAPHY:
+            self.add_new(Tag(0x0008, 0x0060), "CS", "XA")
 
     @property
     def seriesInstanceUID(self) -> str:
