@@ -124,7 +124,7 @@ class DICONDEComponent(Dataset):
 
     @property
     def curvatureType(self) -> CurvatureType | None:
-        """ The material thickness, assigned to tag (0014,0052).
+        """ The curvature type, assigned to tag (0014,0052).
 
         The value is expected to be a CurvatureType. The field is not required.
         """
