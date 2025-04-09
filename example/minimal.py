@@ -51,7 +51,7 @@ diconde_file.examinationNotes = ""
 diconde_file.expiryDate = datetime(1970, 1, 1, tzinfo=timezone.utc)
 
 # fill out component series module
-diconde_file.modality = "TG"
+diconde_file.modality = Modality.THERMOGRAPHY
 diconde_file.seriesInstanceUID= "1.2.840.49258.3.152.235.2.13.187636473" 
 diconde_file.seriesNumber = 0
 
