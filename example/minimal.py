@@ -10,6 +10,8 @@ from pydicom.dataset import FileMetaDataset
 import numpy as np
 from pydicom.uid import ExplicitVRLittleEndian, generate_uid, CTImageStorage
 
+from pydiconde.modules.componentseries import Modality
+
 config.INVALID_KEYWORD_BEHAVIOR = "IGNORE" # we're adding non-DICOM fields
 image_data = np.uint16(np.random.rand(128, 128) * 65535) # sample image data
 
