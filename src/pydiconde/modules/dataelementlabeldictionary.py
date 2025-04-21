@@ -1,5 +1,4 @@
-from pydicom import FileDataset
-from pydicom.dataset import Dataset, FileMetaDataset
+from pydicom.dataset import Dataset
 from pydicom.tag import Tag
 
 class DataElementLabelItemElement(Dataset):
@@ -78,9 +77,9 @@ class DataElementLabelItemElement(Dataset):
     def dataElementMaximumCharacters(self, value: int):
         self.add_new(Tag(0x0014,0x0207), "IS", value)
 
-class DataElementLabelElement(FileDataset):
-    def __init__(self, file_path, object, file_meta=FileMetaDataset()):
-        super().__init__(file_path, object, file_meta=file_meta)
+class DataElementLabelElement(Dataset):
+    def __init__(self):
+        super().__init__()
 
     @property
     def dataElementLabelItemSequence(self) -> list[DataElementLabelItemElement]:
@@ -94,9 +93,9 @@ class DataElementLabelElement(FileDataset):
     def dataElementLabelItemSequence(self, value: list[DataElementLabelItemElement]):
         self.add_new(Tag(0x0014, 0x0201), "SQ", value)
 
-class DataElementLabelSequence(FileDataset):
-    def __init__(self, file_path, object, file_meta=FileMetaDataset()):
-        super().__init__(file_path, object, file_meta=file_meta)
+class DataElementLabelSequence(Dataset):
+    def __init__(self):
+        super().__init__()
 
     @property
     def dataElementLabelSequence(self) -> list[DataElementLabelElement]:

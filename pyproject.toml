@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pydiconde"
-version = "0.1.0"
+version = "0.3.0"
 description = "DICONDE file manipulation that wraps around pydicom"
 authors = [{ name = "Benjamin Standfield", email = "benjamin.standfield@ccam-va.com" }]
 license = { text = "MIT" }

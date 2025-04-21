@@ -1,5 +1,4 @@
-from pydicom import FileDataset
-from pydicom.dataset import Dataset, FileMetaDataset
+from pydicom.dataset import Dataset
 from pydicom.tag import Tag
 from datetime import datetime
 from enum import Enum
@@ -25,7 +24,7 @@ class otherComponentIDsSequenceElement(Dataset):
     def otherComponentNames(self) -> list[str] | None:
         """ The component names to be assigned to tag (0010,1001).
 
-        The value is expected to be a person name, but not required.
+        The value is expected to be a name, but not required.
         """
         return self[Tag(0x0010, 0x1001)].value
 
@@ -33,9 +32,9 @@ class otherComponentIDsSequenceElement(Dataset):
     def otherComponentNames(self, value: list[str] | None):
         self.add_new(Tag(0x0010, 0x1001), "PN", value)
 
-class DICONDEComponent(FileDataset):
-    def __init__(self, file_path, object, file_meta=FileMetaDataset()):
-        super().__init__(file_path, object, file_meta=file_meta)
+class DICONDEComponent(Dataset):
+    def __init__(self):
+        super().__init__()
 
     @property
     def componentName(self) -> str | None:
@@ -48,9 +47,9 @@ class DICONDEComponent(FileDataset):
 
     @property
     def componentIDNumber(self) -> str | None:
-        """ The component ID to be assigned to tag (0010,0020).
+        """ The component ID number to be assigned to tag (0010,0020).
 
-        The value is expected to be an ID. The field is required, but can be
+        The value is expected to be a long string. The field is required, but can be
         zero-valued.
         """
         return self[Tag(0x0010, 0x0020)].value
@@ -109,15 +108,33 @@ class DICONDEComponent(FileDataset):
 
         The value is expected to be a ComponentShape. The field is not required.
         """
-        return self[Tag(0x0014,0x0050)].value
+        x = self[Tag(0x0014,0x0050)].value
+        if x == "FLAT":
+            return ComponentShape.FLAT
+        elif x == "CYLH":
+            return ComponentShape.HOLLOWCYLINDER
+        elif x == "CYLS":
+            return ComponentShape.SOLIDCYLINDER
+        elif x == "SPHEREH":
+            return ComponentShape.HOLLOWSPHERE
+        elif x == "SPHERES":
+            return ComponentShape.SOLIDSPHERE
+        elif x == "COMPOUND":
+            return ComponentShape.COMPOUNDCURVATURE
 
     @property
     def curvatureType(self) -> CurvatureType | None:
-        """ The material thickness, assigned to tag (0014,0052).
+        """ The curvature type, assigned to tag (0014,0052).
 
         The value is expected to be a CurvatureType. The field is not required.
         """
-        return self[Tag(0x0014,0x0050)].value
+        x = self[Tag(0x0014,0x0052)].value
+        if x == "FLAT":
+            return CurvatureType.CONCAVE
+        elif x == "CONVEX":
+            return CurvatureType.CONVEX
+        elif x == "COMPOUND":
+            return CurvatureType.COMPOUND
 
     @property
     def outerDiameter(self) -> float | None:
@@ -185,11 +202,11 @@ class DICONDEComponent(FileDataset):
 
     @materialName.setter
     def materialName(self, value: str | None):
-        self.add_new(Tag(0x0014,0x2160), "SH", value)
+        self.add_new(Tag(0x0010,0x2160), "SH", value)
 
     @materialPropertiesDescription.setter
     def materialPropertiesDescription(self, value: str | None):
-        self.add_new(Tag(0x0014,0x0044), "ST", value)
+        self.add_new(Tag(0x0010,0x0044), "ST", value)
 
     @materialNotes.setter
     def materialNotes(self, value: str | None):
@@ -200,12 +217,28 @@ class DICONDEComponent(FileDataset):
         self.add_new(Tag(0x0014,0x0030), "DS", value)
 
     @componentShape.setter
-    def componentShape(self, value: str | None):
-        self.add_new(Tag(0x0014,0x0050), "CS", value)
+    def componentShape(self, value: ComponentShape | None):
+        if value == 0 :
+            self.add_new(Tag(0x0014,0x0050), "CS", "FLAT")
+        elif value == 1:
+            self.add_new(Tag(0x0014,0x0050), "CS", "CYLH")
+        elif value == 2:
+            self.add_new(Tag(0x0014,0x0050), "CS", "CYLS")
+        elif value == 3:
+            self.add_new(Tag(0x0014,0x0050), "CS", "SPHEREH")
+        elif value == 4:
+            self.add_new(Tag(0x0014,0x0050), "CS", "SPHERES")
+        elif value == 5:
+            self.add_new(Tag(0x0014,0x0050), "CS", "COMPOUND")
 
     @curvatureType.setter
     def curvatureType(self, value: str | None):
-        self.add_new(Tag(0x0014,0x0052), "CS", value)
+        if value == 0:
+            self.add_new(Tag(0x0014,0x0052), "CS", "CONCAVE")
+        elif value == 1:
+            self.add_new(Tag(0x0014,0x0052), "CS", "CONVEX")
+        elif value == 2:
+            self.add_new(Tag(0x0014,0x0052), "CS", "COMPOUND")
 
     @outerDiameter.setter
     def outerDiameter(self, value: str | None):

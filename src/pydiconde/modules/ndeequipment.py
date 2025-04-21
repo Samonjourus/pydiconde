@@ -1,11 +1,10 @@
-from pydicom import FileDataset
-from pydicom.dataset import FileMetaDataset
+from pydicom.dataset import Dataset
 from pydicom.tag import Tag
 from datetime import datetime
 
-class DICONDENDEquipment(FileDataset):
-    def __init__(self, file_path, object, file_meta=FileMetaDataset()):
-        super().__init__(file_path, object, file_meta=file_meta)
+class DICONDENDEquipment(Dataset):
+    def __init__(self):
+        super().__init__()
 
     @property
     def softwareVersions(self) -> list[str]:
@@ -162,5 +161,5 @@ class DICONDENDEquipment(FileDataset):
     @pixelPaddingValue.setter
     def pixelPaddingValue(self, value: int):
         # WARN: this property is shady...
-        self.add_new(Tag(0x0028,0x0120), "SS", value)
+        self.add_new(Tag(0x0028,0x0120), "US or SS", value)
 
