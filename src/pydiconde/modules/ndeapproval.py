@@ -77,8 +77,27 @@ class DICONDENDEApproval(Dataset):
         return self[Tag(0x300E,0x0002)].value
 
     @approvalStatus.setter
-    def approvalStatus(self, value: str):
-        self.add_new(Tag(0x300E,0x0002), "CS", value)
+    def approvalStatus(self, value: str | ApprovalStatus | None):
+        if isinstance(value, str):
+            if value.upper() in ["APPROVED", "NOTREVIEWED", "REJECTED", "NODISPOSITION", "RETEST", "REPAIR", "FURTHERREVIEW"]:
+                self.add_new(Tag(0x300E,0x0002), "CS", value.upper())
+        elif isinstance(value, ApprovalStatus):
+            if value == ApprovalStatus.APPROVED:
+                self.add_new(Tag(0x300E,0x0002), "CS", "APPROVED")
+            if value == ApprovalStatus.NOTREVIEWED:
+                self.add_new(Tag(0x300E,0x0002), "CS", "NOTREVIEWED")
+            if value == ApprovalStatus.REJECTED:
+                self.add_new(Tag(0x300E,0x0002), "CS", "REJECTED")
+            if value == ApprovalStatus.NODISPOSITION:
+                self.add_new(Tag(0x300E,0x0002), "CS", "NODISPOSITION")
+            if value == ApprovalStatus.RETEST:
+                self.add_new(Tag(0x300E,0x0002), "CS", "RETEST")
+            if value == ApprovalStatus.REPAIR:
+                self.add_new(Tag(0x300E,0x0002), "CS", "REPAIR")
+            if value == ApprovalStatus.FURTHERREVIEW:
+                self.add_new(Tag(0x300E,0x0002), "CS", "FURTHERREVIEW")
+        elif value is None:
+            self.pop((0x300E,0x0002))
 
     @property
     def reviewDate(self) -> datetime:
