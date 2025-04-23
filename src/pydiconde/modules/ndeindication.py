@@ -260,8 +260,23 @@ class IndicationSequenceElement(Dataset):
         return self[Tag(0x0070, 0x0023)].value
 
     @indicationROIGeometricType.setter
-    def indicationROIGeometricType(self, value: IndicationROIGeometricTypeEnum):
-        self.add_new(Tag(0x0070, 0x0023), "CS", value)
+    def indicationROIGeometricType(self, value: IndicationROIGeometricTypeEnum | str | None):
+        if isinstance(value, IndicationROIGeometricTypeEnum):
+            if value == IndicationROIGeometricTypeEnum.CIRCLE:
+                self.add_new(Tag(0x0070,0x0023), "CS", "CIRCLE")
+            elif value == IndicationROIGeometricTypeEnum.POLYLINE:
+                self.add_new(Tag(0x0070,0x0023), "CS", "POLYLINE")
+            elif value == IndicationROIGeometricTypeEnum.POINT:
+                self.add_new(Tag(0x0070,0x0023), "CS", "POINT")
+            elif value == IndicationROIGeometricTypeEnum.MULITPOINT:
+                self.add_new(Tag(0x0070,0x0023), "CS", "MULITPOINT")
+            elif value == IndicationROIGeometricTypeEnum.ELLIPSE:
+                self.add_new(Tag(0x0070,0x0023), "CS", "ELLIPSE")
+        elif isinstance(value, str):
+            if value.upper() in ["CIRCLE", "POLYLINE", "POINT", "MULITPOINT", "ELLIPSE"]:
+                self.add_new(Tag(0x0070,0x0023), "CS", value.upper())
+        elif value is None:
+            self.pop((0x0070, 0x0023))
 
     @property
     def indicationROIValueType(self) -> str:
