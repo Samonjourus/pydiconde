@@ -1,5 +1,24 @@
 from pydicom.dataset import Dataset
 from pydicom.tag import Tag
+from enum import Enum
+
+class DataSetMapping(Enum):
+    ROW = 0
+    COLUMN = 1
+    FRAME = 2
+
+class AxisType(Enum):
+    SCAN = 0
+    INDEX = 1
+    GIMBLE = 2
+    SWIVEL = 3
+    ROTATION = 4
+    FIXED = 5
+
+class AxisUnits(Enum):
+    COUNTS = 0
+    MM = 1
+    DEGREES = 2
 
 class CoordinateSystemAxesSequenceElement(Dataset):
     def __init__(self):
@@ -26,8 +45,19 @@ class CoordinateSystemAxesSequenceElement(Dataset):
         return self[Tag(0x0014, 0x2208)].value
 
     @coordinateSystemDataSetMapping.setter
-    def coordinateSystemDataSetMapping(self, value: str):
-        self.add_new(Tag(0x0014, 0x2208), "CS", value)
+    def coordinateSystemDataSetMapping(self, value: str | DataSetMapping | None):
+        if isinstance(value, str):
+            if value.upper() in ["ROW", "COLUMN", "FRAME"]:
+                self.add_new(Tag(0x0014,0x2228), "CS", value.upper())
+        elif isinstance(value, DataSetMapping):
+            if value == DataSetMapping.ROW:
+                self.add_new(Tag(0x0014,0x2228), "CS", "ROW")
+            if value == DataSetMapping.COLUMN:
+                self.add_new(Tag(0x0014,0x2228), "CS", "COLUMN")
+            if value == DataSetMapping.FRAME:
+                self.add_new(Tag(0x0014,0x2228), "CS", "FRAME")
+        elif value is None:
+            self.pop((0x0014,0x2228))
 
     @property
     def coordinateSystemAxisNumber(self) -> int:
@@ -50,7 +80,25 @@ class CoordinateSystemAxesSequenceElement(Dataset):
         return self[Tag(0x0014, 0x220C)].value
 
     @coordinateSystemAxisType.setter
-    def coordinateSystemAxisType(self, value: str):
+    def coordinateSystemAxisType(self, value: str | AxisType | None):
+        if isinstance(value, str):
+            if value.upper() in ["FIXED", "SWIVEL", "SCAN", "ROTATION", "INDEX", "GIMBLE"]:
+                self.add_new(Tag(0x0014,0x220C), "CS", value.upper())
+        elif isinstance(value, AxisUnits):
+            if value == AxisType.FIXED:
+                self.add_new(Tag(0x0014,0x220C), "CS", "FIXED")
+            if value == AxisType.SWIVEL:
+                self.add_new(Tag(0x0014,0x220C), "CS", "SWIVEL")
+            if value == AxisType.SCAN:
+                self.add_new(Tag(0x0014,0x220C), "CS", "SCAN")
+            if value == AxisType.ROTATION:
+                self.add_new(Tag(0x0014,0x220C), "CS", "ROTATION")
+            if value == AxisType.INDEX:
+                self.add_new(Tag(0x0014,0x220C), "CS", "INDEX")
+            if value == AxisType.GIMBLE:
+                self.add_new(Tag(0x0014,0x220C), "CS", "GIMBLE")
+        elif value is None:
+            self.pop((0x0014,0x220C))
         self.add_new(Tag(0x0014, 0x220C), "CS", value)
 
     @property
@@ -62,8 +110,19 @@ class CoordinateSystemAxesSequenceElement(Dataset):
         return self[Tag(0x0014, 0x220E)].value
 
     @coordinateSystemAxisUnits.setter
-    def coordinateSystemAxisUnits(self, value: str):
-        self.add_new(Tag(0x0014, 0x220E), "CS", value)
+    def coordinateSystemAxisUnits(self, value: str | AxisUnits | None):
+        if isinstance(value, str):
+            if value.upper() in ["MM", "COUNTS", "DEGREES"]:
+                self.add_new(Tag(0x0014,0x220E), "CS", value.upper())
+        elif isinstance(value, AxisUnits):
+            if value == AxisUnits.MM:
+                self.add_new(Tag(0x0014,0x220E), "CS", "MM")
+            if value == AxisUnits.COUNTS:
+                self.add_new(Tag(0x0014,0x220E), "CS", "COUNTS")
+            if value == AxisUnits.DEGREES:
+                self.add_new(Tag(0x0014,0x220E), "CS", "DEGREES")
+        elif value is None:
+            self.pop((0x0014,0x220E))
 
     @property
     def coordinateSystemAxisValue(self):
@@ -126,32 +185,43 @@ class CoordinateSystemTransformSequenceElement(Dataset):
         return self[Tag(0x0014, 0x2228)].value
 
     @transformedAxisUnits.setter
-    def transformedAxisUnits(self, value: str):
-        self.add_new(Tag(0x0014, 0x2228), "CS", value)
+    def transformedAxisUnits(self, value: str | AxisUnits | None):
+        if isinstance(value, str):
+            if value.upper() in ["MM", "COUNTS", "DEGREES"]:
+                self.add_new(Tag(0x0014,0x2228), "CS", value.upper())
+        elif isinstance(value, AxisUnits):
+            if value == AxisUnits.MM:
+                self.add_new(Tag(0x0014,0x2228), "CS", "MM")
+            if value == AxisUnits.COUNTS:
+                self.add_new(Tag(0x0014,0x2228), "CS", "COUNTS")
+            if value == AxisUnits.DEGREES:
+                self.add_new(Tag(0x0014,0x2228), "CS", "DEGREES")
+        elif value is None:
+            self.pop((0x0014,0x2228))
 
     @property
     def coordinateSystemRotationAndScaleMatrix(self) -> list[int]:
         """ The order of transform axis to be assigned to tag (0014,222A).
 
-        The value is expected to be an code string. The field is required.
+        The value is expected to be an datatset. The field is required.
         """
         return self[Tag(0x0014, 0x222A)].value
 
     @coordinateSystemRotationAndScaleMatrix.setter
     def coordinateSystemRotationAndScaleMatrix(self, value: str):
-        self.add_new(Tag(0x0014, 0x222A), "CS", value)
+        self.add_new(Tag(0x0014, 0x222A), "DS", value)
 
     @property
     def coordinateSystemTranslationMatrix(self) -> list[int]:
         """ The order of transform axis to be assigned to tag (0014,222C).
 
-        The value is expected to be an code string. The field is required.
+        The value is expected to be an dataset. The field is required.
         """
         return self[Tag(0x0014, 0x222C)].value
 
     @coordinateSystemTranslationMatrix.setter
     def coordinateSystemTranslationMatrix(self, value: str):
-        self.add_new(Tag(0x0014, 0x222C), "CS", value)
+        self.add_new(Tag(0x0014, 0x222C), "DS", value)
 
 
 class DICONDENDEGeometry(Dataset):

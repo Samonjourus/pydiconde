@@ -217,28 +217,41 @@ class DICONDEComponent(Dataset):
         self.add_new(Tag(0x0014,0x0030), "DS", value)
 
     @componentShape.setter
-    def componentShape(self, value: ComponentShape | None):
-        if value == 0 :
-            self.add_new(Tag(0x0014,0x0050), "CS", "FLAT")
-        elif value == 1:
-            self.add_new(Tag(0x0014,0x0050), "CS", "CYLH")
-        elif value == 2:
-            self.add_new(Tag(0x0014,0x0050), "CS", "CYLS")
-        elif value == 3:
-            self.add_new(Tag(0x0014,0x0050), "CS", "SPHEREH")
-        elif value == 4:
-            self.add_new(Tag(0x0014,0x0050), "CS", "SPHERES")
-        elif value == 5:
-            self.add_new(Tag(0x0014,0x0050), "CS", "COMPOUND")
+    def componentShape(self, value: ComponentShape | str | None):
+        if isinstance(value, ComponentShape):
+            if value == ComponentShape.FLAT :
+                self.add_new(Tag(0x0014,0x0050), "CS", "FLAT")
+            elif value == ComponentShape.HOLLOWCYLINDER:
+                self.add_new(Tag(0x0014,0x0050), "CS", "CYLH")
+            elif value == ComponentShape.SOLIDCYLINDER:
+                self.add_new(Tag(0x0014,0x0050), "CS", "CYLS")
+            elif value == ComponentShape.HOLLOWSPHERE:
+                self.add_new(Tag(0x0014,0x0050), "CS", "SPHEREH")
+            elif value == ComponentShape.SOLIDSPHERE:
+                self.add_new(Tag(0x0014,0x0050), "CS", "SPHERES")
+            elif value == ComponentShape.COMPOUNDCURVATURE:
+                self.add_new(Tag(0x0014,0x0050), "CS", "COMPOUND")
+        elif isinstance(value, str):
+            if value.upper() in ["FLAT", "CYLH", "CYLS", "SPHEREH", "SPHERES", "COMPOUND"]:
+                self.add_new(Tag(0x0014,0x0050), "CS", value.upper())
+        elif value is None:
+            self.pop((0x0014,0x0050))
 
     @curvatureType.setter
-    def curvatureType(self, value: str | None):
-        if value == 0:
-            self.add_new(Tag(0x0014,0x0052), "CS", "CONCAVE")
-        elif value == 1:
-            self.add_new(Tag(0x0014,0x0052), "CS", "CONVEX")
-        elif value == 2:
-            self.add_new(Tag(0x0014,0x0052), "CS", "COMPOUND")
+    def curvatureType(self, value: str | CurvatureType | None):
+        if isinstance(value, CurvatureType):
+            if value == CurvatureType.CONCAVE:
+                self.add_new(Tag(0x0014,0x0052), "CS", "CONCAVE")
+            elif value == CurvatureType.CONVEX:
+                self.add_new(Tag(0x0014,0x0052), "CS", "CONVEX")
+            elif value == CurvatureType.COMPOUND:
+                self.add_new(Tag(0x0014,0x0052), "CS", "COMPOUND")
+        elif isinstance(value, str):
+            if value.upper() in ["CONVAVE", "CONVEX", "COMPOUND"]:
+                self.add_new(Tag(0x0014,0x0052), "CS", value.upper())
+        elif value is None:
+            self.pop((0x0014, 0x0052))
+
 
     @outerDiameter.setter
     def outerDiameter(self, value: str | None):

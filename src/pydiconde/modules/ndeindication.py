@@ -2,6 +2,15 @@ from pydicom import Dataset
 from pydicom.tag import Tag
 from enum import Enum
 
+class IndicationDispositionEnum(Enum):
+    ACCEPT = 0
+    REJECT = 1
+    HOLD = 2
+
+class IndicationROIValueTypeEnum(Enum):
+    SCOORD = 0
+    SCOORD3D = 1
+
 class IndicationROIGeometricTypeEnum(Enum):
     POINT = 0
     MULITPOINT = 1
@@ -120,8 +129,23 @@ class IndicationROISequenceElement(Dataset):
         return self[Tag(0x0070, 0x0023)].value
 
     @indicationROIGeometricType.setter
-    def indicationROIGeometricType(self, value: IndicationROIGeometricTypeEnum):
-        self.add_new(Tag(0x0070, 0x0023), "CS", value)
+    def indicationROIGeometricType(self, value: IndicationROIGeometricTypeEnum | str | None):
+        if isinstance(value, IndicationROIGeometricTypeEnum):
+            if value == IndicationROIGeometricTypeEnum.CIRCLE:
+                self.add_new(Tag(0x0070,0x0023), "CS", "CIRCLE")
+            elif value == IndicationROIGeometricTypeEnum.POLYLINE:
+                self.add_new(Tag(0x0070,0x0023), "CS", "POLYLINE")
+            elif value == IndicationROIGeometricTypeEnum.POINT:
+                self.add_new(Tag(0x0070,0x0023), "CS", "POINT")
+            elif value == IndicationROIGeometricTypeEnum.MULITPOINT:
+                self.add_new(Tag(0x0070,0x0023), "CS", "MULITPOINT")
+            elif value == IndicationROIGeometricTypeEnum.ELLIPSE:
+                self.add_new(Tag(0x0070,0x0023), "CS", "ELLIPSE")
+        elif isinstance(value, str):
+            if value.upper() in ["CIRCLE", "POLYLINE", "POINT", "MULITPOINT", "ELLIPSE"]:
+                self.add_new(Tag(0x0070,0x0023), "CS", value.upper())
+        elif value is None:
+            self.pop((0x0070, 0x0023))
 
     @property
     def indicationROIValueType(self) -> str:
@@ -133,7 +157,23 @@ class IndicationROISequenceElement(Dataset):
 
     @indicationROIValueType.setter
     def indicationROIValueType(self, value: list[IndicationPhysicalPropertySequenceElement]):
-        self.add_new(Tag(0x0040, 0xA040), "CS", value)
+        new_value = []
+
+        if value is None:
+            self.pop((0x0040,0xA040))
+            return
+
+        for val in value:
+            if isinstance(val, str):
+                if val.upper() in ["SCOORD3D", "SCOORD"]:
+                    new_value.append(val.upper())
+            elif isinstance(val, IndicationROIValueTypeEnum):
+                if val == IndicationROIValueTypeEnum.SCOORD:
+                    new_value.append("SCOORD")
+                if val == IndicationROIValueTypeEnum.SCOORD3D:
+                    new_value.append("SCOORD3D")
+
+        self.add_new(Tag(0x0040,0xA040), "CS", new_value)
 
     @property
     def numberOfROIContourPoints(self) -> int:
@@ -220,8 +260,21 @@ class IndicationSequenceElement(Dataset):
         return self[Tag(0x0014, 0x201A)].value
 
     @indicationType.setter
-    def indicationType(self, value: IndicationTypeEnum):
-        self.add_new(Tag(0x0014, 0x201A), "CS", value)
+    def indicationType(self, value: IndicationTypeEnum | str | None):
+        if isinstance(value, IndicationTypeEnum):
+            if value == IndicationTypeEnum.VOID:
+                self.add_new(Tag(0x0014,0x201A), "CS", "VOID")
+            if value == IndicationTypeEnum.POROSITY:
+                self.add_new(Tag(0x0014,0x201A), "CS", "POROSITY")
+            if value == IndicationTypeEnum.INCLUSION:
+                self.add_new(Tag(0x0014,0x201A), "CS", "INCLUSION")
+            if value == IndicationTypeEnum.CRACK:
+                self.add_new(Tag(0x0014,0x201A), "CS", "CRACK")
+        elif isinstance(value, str):
+            if value.upper() in ["VOID", "POROSITY", "INCLUSION", "CRACK"]:
+                self.add_new(Tag(0x0014,0x201A), "CS", value.upper())
+        elif value is None:
+            self.pop((0x0014, 0x201A))
 
     @property
     def indicationDisposition(self) -> str:
@@ -232,7 +285,19 @@ class IndicationSequenceElement(Dataset):
         return self[Tag(0x0014, 0x201C)].value
 
     @indicationDisposition.setter
-    def indicationDisposition(self, value: str):
+    def indicationDisposition(self, value: str | IndicationDispositionEnum | None):
+        if isinstance(value, IndicationDispositionEnum):
+            if value == IndicationDispositionEnum.ACCEPT:
+                self.add_new(Tag(0x0014,0x201C), "CS", "ACCEPT")
+            if value == IndicationDispositionEnum.REJECT:
+                self.add_new(Tag(0x0014,0x201C), "CS", "REJECT")
+            if value == IndicationDispositionEnum.HOLD:
+                self.add_new(Tag(0x0014,0x201C), "CS", "HOLD")
+        elif isinstance(value, str):
+            if value.upper() in ["ACCEPT", "REJECT", "HOLD"]:
+                self.add_new(Tag(0x0014,0x201C), "CS", value.upper())
+        elif value is None:
+            self.pop((0x0014, 0x201C))
         self.add_new(Tag(0x0014, 0x201C), "CS", value)
 
     @property
@@ -256,8 +321,23 @@ class IndicationSequenceElement(Dataset):
         return self[Tag(0x0070, 0x0023)].value
 
     @indicationROIGeometricType.setter
-    def indicationROIGeometricType(self, value: IndicationROIGeometricTypeEnum):
-        self.add_new(Tag(0x0070, 0x0023), "CS", value)
+    def indicationROIGeometricType(self, value: IndicationROIGeometricTypeEnum | str | None):
+        if isinstance(value, IndicationROIGeometricTypeEnum):
+            if value == IndicationROIGeometricTypeEnum.CIRCLE:
+                self.add_new(Tag(0x0070,0x0023), "CS", "CIRCLE")
+            elif value == IndicationROIGeometricTypeEnum.POLYLINE:
+                self.add_new(Tag(0x0070,0x0023), "CS", "POLYLINE")
+            elif value == IndicationROIGeometricTypeEnum.POINT:
+                self.add_new(Tag(0x0070,0x0023), "CS", "POINT")
+            elif value == IndicationROIGeometricTypeEnum.MULITPOINT:
+                self.add_new(Tag(0x0070,0x0023), "CS", "MULITPOINT")
+            elif value == IndicationROIGeometricTypeEnum.ELLIPSE:
+                self.add_new(Tag(0x0070,0x0023), "CS", "ELLIPSE")
+        elif isinstance(value, str):
+            if value.upper() in ["CIRCLE", "POLYLINE", "POINT", "MULITPOINT", "ELLIPSE"]:
+                self.add_new(Tag(0x0070,0x0023), "CS", value.upper())
+        elif value is None:
+            self.pop((0x0070, 0x0023))
 
     @property
     def indicationROIValueType(self) -> str:
@@ -268,8 +348,24 @@ class IndicationSequenceElement(Dataset):
         return self[Tag(0x0040, 0xA040)].value
 
     @indicationROIValueType.setter
-    def indicationROIValueType(self, value: list[IndicationPhysicalPropertySequenceElement]):
-        self.add_new(Tag(0x0040, 0xA040), "CS", value)
+    def indicationROIValueType(self, value: list[IndicationROIValueTypeEnum | str] | None):
+        new_value = []
+
+        if value is None:
+            self.pop((0x0040,0xA040))
+            return
+
+        for val in value:
+            if isinstance(val, str):
+                if val.upper() in ["SCOORD3D", "SCOORD"]:
+                    new_value.append(val.upper())
+            elif isinstance(val, IndicationROIValueTypeEnum):
+                if val == IndicationROIValueTypeEnum.SCOORD:
+                    new_value.append("SCOORD")
+                if val == IndicationROIValueTypeEnum.SCOORD3D:
+                    new_value.append("SCOORD3D")
+
+        self.add_new(Tag(0x0040,0xA040), "CS", new_value)
 
     @property
     def numberOfROIContourPoints(self) -> int:

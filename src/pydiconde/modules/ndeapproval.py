@@ -1,7 +1,16 @@
 from pydicom.dataset import Dataset
 from pydicom.tag import Tag
 from datetime import datetime, time
+from enum import Enum
 
+class ApprovalStatus(Enum):
+    APPROVED = 0
+    NOTREVIEWED = 1
+    REJECTED = 2
+    NODISPOSITION = 3
+    RETEST = 4
+    REPAIR = 5
+    FURTHERREVIEW = 6
 
 class MultipleComponentApprovalElement(Dataset):
     def __init__(self):
@@ -28,8 +37,34 @@ class MultipleComponentApprovalElement(Dataset):
         return self[Tag(0x0014,0x0107)].value
 
     @otherApprovalStatus.setter
-    def otherApprovalStatus(self, value: list[str]):
-        self.add_new(Tag(0x0014,0x0107), "CS", value)
+    def otherApprovalStatus(self, value: list[str | ApprovalStatus] | None):
+        new_value = []
+
+        if value is None:
+            self.pop((0x0010,0x1007))
+            return
+
+        for val in value:
+            if isinstance(val, str):
+                if val.upper() in ["APPROVED", "NOTREVIEWED", "REJECTED", "NODISPOSITION", "RETEST", "REPAIR", "FURTHERREVIEW"]:
+                    new_value.append(val.upper())
+            elif isinstance(val, ApprovalStatus):
+                if val == ApprovalStatus.APPROVED:
+                    new_value.append("APPROVED")
+                if val == ApprovalStatus.NOTREVIEWED:
+                    new_value.append("NOTREVIEWED")
+                if val == ApprovalStatus.REJECTED:
+                    new_value.append("REJECTED")
+                if val == ApprovalStatus.NODISPOSITION:
+                    new_value.append("NODISPOSITION")
+                if val == ApprovalStatus.RETEST:
+                    new_value.append("RETEST")
+                if val == ApprovalStatus.REPAIR:
+                    new_value.append("REPAIR")
+                if val == ApprovalStatus.FURTHERREVIEW:
+                    new_value.append("FURTHERREVIEW")
+
+        self.add_new(Tag(0x0010,0x1007), "CS", new_value)
 
     @property
     def otherComponentIDs(self) -> list[str]:
@@ -52,8 +87,34 @@ class MultipleComponentApprovalElement(Dataset):
         return self[Tag(0x0014,0x0108)].value
 
     @otherSecondaryApprovalStatus.setter
-    def otherSecondaryApprovalStatus(self, value: list[str]):
-        self.add_new(Tag(0x0010,0x1000), "CS", value)
+    def otherSecondaryApprovalStatus(self, value: list[str | ApprovalStatus] | None):
+        new_value = []
+
+        if value is None:
+            self.pop((0x0010,0x1008))
+            return
+
+        for val in value:
+            if isinstance(val, str):
+                if val.upper() in ["APPROVED", "NOTREVIEWED", "REJECTED", "NODISPOSITION", "RETEST", "REPAIR", "FURTHERREVIEW"]:
+                    new_value.append(val.upper())
+            elif isinstance(val, ApprovalStatus):
+                if val == ApprovalStatus.APPROVED:
+                    new_value.append("APPROVED")
+                if val == ApprovalStatus.NOTREVIEWED:
+                    new_value.append("NOTREVIEWED")
+                if val == ApprovalStatus.REJECTED:
+                    new_value.append("REJECTED")
+                if val == ApprovalStatus.NODISPOSITION:
+                    new_value.append("NODISPOSITION")
+                if val == ApprovalStatus.RETEST:
+                    new_value.append("RETEST")
+                if val == ApprovalStatus.REPAIR:
+                    new_value.append("REPAIR")
+                if val == ApprovalStatus.FURTHERREVIEW:
+                    new_value.append("FURTHERREVIEW")
+
+        self.add_new(Tag(0x0010,0x1008), "CS", new_value)
         
 class DICONDENDEApproval(Dataset):
     def __init__(self):
@@ -68,8 +129,27 @@ class DICONDENDEApproval(Dataset):
         return self[Tag(0x300E,0x0002)].value
 
     @approvalStatus.setter
-    def approvalStatus(self, value: str):
-        self.add_new(Tag(0x300E,0x0002), "CS", value)
+    def approvalStatus(self, value: str | ApprovalStatus | None):
+        if isinstance(value, str):
+            if value.upper() in ["APPROVED", "NOTREVIEWED", "REJECTED", "NODISPOSITION", "RETEST", "REPAIR", "FURTHERREVIEW"]:
+                self.add_new(Tag(0x300E,0x0002), "CS", value.upper())
+        elif isinstance(value, ApprovalStatus):
+            if value == ApprovalStatus.APPROVED:
+                self.add_new(Tag(0x300E,0x0002), "CS", "APPROVED")
+            if value == ApprovalStatus.NOTREVIEWED:
+                self.add_new(Tag(0x300E,0x0002), "CS", "NOTREVIEWED")
+            if value == ApprovalStatus.REJECTED:
+                self.add_new(Tag(0x300E,0x0002), "CS", "REJECTED")
+            if value == ApprovalStatus.NODISPOSITION:
+                self.add_new(Tag(0x300E,0x0002), "CS", "NODISPOSITION")
+            if value == ApprovalStatus.RETEST:
+                self.add_new(Tag(0x300E,0x0002), "CS", "RETEST")
+            if value == ApprovalStatus.REPAIR:
+                self.add_new(Tag(0x300E,0x0002), "CS", "REPAIR")
+            if value == ApprovalStatus.FURTHERREVIEW:
+                self.add_new(Tag(0x300E,0x0002), "CS", "FURTHERREVIEW")
+        elif value is None:
+            self.pop((0x300E,0x0002))
 
     @property
     def reviewDate(self) -> datetime:
@@ -117,8 +197,27 @@ class DICONDENDEApproval(Dataset):
         return self[Tag(0x0014,0x0101)].value
 
     @secondaryApprovalStatus.setter
-    def secondaryApprovalStatus(self, value: str):
-        self.add_new(Tag(0x0014,0x0101), "CS", value)
+    def secondaryApprovalStatus(self, value: str | ApprovalStatus | None):
+        if isinstance(value, str):
+            if value.upper() in ["APPROVED", "NOTREVIEWED", "REJECTED", "NODISPOSITION", "RETEST", "REPAIR", "FURTHERREVIEW"]:
+                self.add_new(Tag(0x0014,0x0101), "CS", value.upper())
+        elif isinstance(value, ApprovalStatus):
+            if value == ApprovalStatus.APPROVED:
+                self.add_new(Tag(0x0014,0x0101), "CS", "APPROVED")
+            if value == ApprovalStatus.NOTREVIEWED:
+                self.add_new(Tag(0x0014,0x0101), "CS", "NOTREVIEWED")
+            if value == ApprovalStatus.REJECTED:
+                self.add_new(Tag(0x0014,0x0101), "CS", "REJECTED")
+            if value == ApprovalStatus.NODISPOSITION:
+                self.add_new(Tag(0x0014,0x0101), "CS", "NODISPOSITION")
+            if value == ApprovalStatus.RETEST:
+                self.add_new(Tag(0x0014,0x0101), "CS", "RETEST")
+            if value == ApprovalStatus.REPAIR:
+                self.add_new(Tag(0x0014,0x0101), "CS", "REPAIR")
+            if value == ApprovalStatus.FURTHERREVIEW:
+                self.add_new(Tag(0x0014,0x0101), "CS", "FURTHERREVIEW")
+        elif value is None:
+            self.pop((0x0014,0x0101))
 
     @property
     def secondaryReviewDate(self) -> datetime:
