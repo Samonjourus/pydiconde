@@ -241,7 +241,19 @@ class IndicationSequenceElement(Dataset):
         return self[Tag(0x0014, 0x201C)].value
 
     @indicationDisposition.setter
-    def indicationDisposition(self, value: str):
+    def indicationDisposition(self, value: str | IndicationDispositionEnum | None):
+        if isinstance(value, IndicationDispositionEnum):
+            if value == IndicationDispositionEnum.ACCEPT:
+                self.add_new(Tag(0x0014,0x201C), "CS", "ACCEPT")
+            if value == IndicationDispositionEnum.REJECT:
+                self.add_new(Tag(0x0014,0x201C), "CS", "REJECT")
+            if value == IndicationDispositionEnum.HOLD:
+                self.add_new(Tag(0x0014,0x201C), "CS", "HOLD")
+        elif isinstance(value, str):
+            if value.upper() in ["ACCEPT", "REJECT", "HOLD"]:
+                self.add_new(Tag(0x0014,0x201C), "CS", value.upper())
+        elif value is None:
+            self.pop((0x0070, 0x0023))
         self.add_new(Tag(0x0014, 0x201C), "CS", value)
 
     @property
