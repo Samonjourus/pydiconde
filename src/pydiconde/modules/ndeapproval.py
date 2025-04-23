@@ -61,8 +61,34 @@ class MultipleComponentApprovalElement(Dataset):
         return self[Tag(0x0014,0x0108)].value
 
     @otherSecondaryApprovalStatus.setter
-    def otherSecondaryApprovalStatus(self, value: list[str]):
-        self.add_new(Tag(0x0010,0x1000), "CS", value)
+    def otherSecondaryApprovalStatus(self, value: list[str | ApprovalStatus] | None):
+        new_value = []
+
+        if value is None:
+            self.pop((0x0010,0x1008))
+            return
+
+        for val in value:
+            if isinstance(val, str):
+                if val.upper() in ["APPROVED", "NOTREVIEWED", "REJECTED", "NODISPOSITION", "RETEST", "REPAIR", "FURTHERREVIEW"]:
+                    new_value.append(val.upper())
+            elif isinstance(val, ApprovalStatus):
+                if val == ApprovalStatus.APPROVED:
+                    new_value.append("APPROVED")
+                if val == ApprovalStatus.NOTREVIEWED:
+                    new_value.append("NOTREVIEWED")
+                if val == ApprovalStatus.REJECTED:
+                    new_value.append("REJECTED")
+                if val == ApprovalStatus.NODISPOSITION:
+                    new_value.append("NODISPOSITION")
+                if val == ApprovalStatus.RETEST:
+                    new_value.append("RETEST")
+                if val == ApprovalStatus.REPAIR:
+                    new_value.append("REPAIR")
+                if val == ApprovalStatus.FURTHERREVIEW:
+                    new_value.append("FURTHERREVIEW")
+
+        self.add_new(Tag(0x0010,0x1008), "CS", new_value)
         
 class DICONDENDEApproval(Dataset):
     def __init__(self):
