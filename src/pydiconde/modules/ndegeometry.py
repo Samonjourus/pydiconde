@@ -1,5 +1,24 @@
 from pydicom.dataset import Dataset
 from pydicom.tag import Tag
+from enum import Enum
+
+class DataSetMapping(Enum):
+    ROW = 0
+    COLUMN = 1
+    FRAME = 2
+
+class AxisType(Enum):
+    SCAN = 0
+    INDEX = 1
+    GIMBLE = 2
+    SWIVEL = 3
+    ROTATION = 4
+    FIXED = 5
+
+class AxisUnits(Enum):
+    COUNTS = 0
+    MM = 1
+    DEGREES = 2
 
 class CoordinateSystemAxesSequenceElement(Dataset):
     def __init__(self):
