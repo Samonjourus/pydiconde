@@ -78,7 +78,7 @@ class DICONDEComponentSeries(Dataset):
             return Modality.REALTIMEDIGITALRADIOGRAPHY
 
     @modality.setter
-    def modality(self, value: Modality | str):
+    def modality(self, value: Modality | str | None):
         if isinstance(value, Modality):
             if value == Modality.COMPUTEDRADIOGRAPHY:
                 self.add_new(Tag(0x0008, 0x0060), "CS", "CR")
@@ -105,6 +105,8 @@ class DICONDEComponentSeries(Dataset):
         elif isinstance(value, str):
             if value.upper() in ["CR", "CT_MF", "US", "DX", "ES", "SC", "CT", "US_MF", "TG", "PR", "XA"]:
                 self.add_new(Tag(0x0008, 0x0060), "CS", value.upper())
+        elif value is None:
+            self.pop((0x008, 0x0060))
 
     @property
     def seriesInstanceUID(self) -> str:
