@@ -2,6 +2,10 @@ from pydicom import Dataset
 from pydicom.tag import Tag
 from enum import Enum
 
+class IndicationROIValueTypeEnum(Enum):
+    SCOORD = 0
+    SCOORD3D = 1
+
 class IndicationROIGeometricTypeEnum(Enum):
     POINT = 0
     MULITPOINT = 1
