@@ -126,8 +126,19 @@ class CoordinateSystemTransformSequenceElement(Dataset):
         return self[Tag(0x0014, 0x2228)].value
 
     @transformedAxisUnits.setter
-    def transformedAxisUnits(self, value: str):
-        self.add_new(Tag(0x0014, 0x2228), "CS", value)
+    def transformedAxisUnits(self, value: str | AxisUnits | None):
+        if isinstance(value, str):
+            if value.upper() in ["MM", "COUNTS", "DEGREES"]:
+                self.add_new(Tag(0x0014,0x2228), "CS", value.upper())
+        elif isinstance(value, AxisUnits):
+            if value == AxisUnits.MM:
+                self.add_new(Tag(0x0014,0x2228), "CS", "MM")
+            if value == AxisUnits.COUNTS:
+                self.add_new(Tag(0x0014,0x2228), "CS", "COUNTS")
+            if value == AxisUnits.DEGREES:
+                self.add_new(Tag(0x0014,0x2228), "CS", "DEGREES")
+        elif value is None:
+            self.pop((0x0014,0x2228))
 
     @property
     def coordinateSystemRotationAndScaleMatrix(self) -> list[int]:
