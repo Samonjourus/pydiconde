@@ -2,6 +2,11 @@ from pydicom import Dataset
 from pydicom.tag import Tag
 from enum import Enum
 
+class IndicationDispositionEnum(Enum):
+    ACCEPT = 0
+    REJECT = 1
+    HOLD = 2
+
 class IndicationROIValueTypeEnum(Enum):
     SCOORD = 0
     SCOORD3D = 1
