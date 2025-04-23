@@ -78,29 +78,33 @@ class DICONDEComponentSeries(Dataset):
             return Modality.REALTIMEDIGITALRADIOGRAPHY
 
     @modality.setter
-    def modality(self, value: Modality):
-        if value == Modality.COMPUTEDRADIOGRAPHY:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "CR")
-        elif value == Modality.MULTIFRAMECT:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "CT_MF")
-        elif value == Modality.ULTRASOUND:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "US")
-        elif value == Modality.DIGITALRADIOGRAPHY:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "DX")
-        elif value == Modality.BORESCOPE:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "ES")
-        elif value == Modality.SECONDARYCAPTURE:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "SC")
-        elif value == Modality.COMPUTEDTOMOGRAPHY:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "CT")
-        elif value == Modality.MULTIFRAMEULTRASOUND:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "US_MF")
-        elif value == Modality.THERMOGRAPHY:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "TG")
-        elif value == Modality.PRESENTATIONSTATE:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "PR")
-        elif value == Modality.REALTIMEDIGITALRADIOGRAPHY:
-            self.add_new(Tag(0x0008, 0x0060), "CS", "XA")
+    def modality(self, value: Modality | str):
+        if isinstance(value, Modality):
+            if value == Modality.COMPUTEDRADIOGRAPHY:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "CR")
+            elif value == Modality.MULTIFRAMECT:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "CT_MF")
+            elif value == Modality.ULTRASOUND:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "US")
+            elif value == Modality.DIGITALRADIOGRAPHY:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "DX")
+            elif value == Modality.BORESCOPE:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "ES")
+            elif value == Modality.SECONDARYCAPTURE:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "SC")
+            elif value == Modality.COMPUTEDTOMOGRAPHY:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "CT")
+            elif value == Modality.MULTIFRAMEULTRASOUND:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "US_MF")
+            elif value == Modality.THERMOGRAPHY:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "TG")
+            elif value == Modality.PRESENTATIONSTATE:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "PR")
+            elif value == Modality.REALTIMEDIGITALRADIOGRAPHY:
+                self.add_new(Tag(0x0008, 0x0060), "CS", "XA")
+        elif isinstance(value, str):
+            if value.upper() in ["CR", "CT_MF", "US", "DX", "ES", "SC", "CT", "US_MF", "TG", "PR", "XA"]:
+                self.add_new(Tag(0x0008, 0x0060), "CS", value.upper())
 
     @property
     def seriesInstanceUID(self) -> str:
