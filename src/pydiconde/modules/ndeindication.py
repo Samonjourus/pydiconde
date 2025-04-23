@@ -268,8 +268,24 @@ class IndicationSequenceElement(Dataset):
         return self[Tag(0x0040, 0xA040)].value
 
     @indicationROIValueType.setter
-    def indicationROIValueType(self, value: list[IndicationPhysicalPropertySequenceElement]):
-        self.add_new(Tag(0x0040, 0xA040), "CS", value)
+    def indicationROIValueType(self, value: list[IndicationROIValueTypeEnum | str] | None):
+        new_value = []
+
+        if value is None:
+            self.pop((0x0040,0xA040))
+            return
+
+        for val in value:
+            if isinstance(val, str):
+                if val.upper() in ["SCOORD3D", "SCOORD"]:
+                    new_value.append(val.upper())
+            elif isinstance(val, IndicationROIValueTypeEnum):
+                if val == IndicationROIValueTypeEnum.SCOORD:
+                    new_value.append("SCOORD")
+                if val == IndicationROIValueTypeEnum.SCOORD3D:
+                    new_value.append("SCOORD3D")
+
+        self.add_new(Tag(0x0040,0xA040), "CS", new_value)
 
     @property
     def numberOfROIContourPoints(self) -> int:
