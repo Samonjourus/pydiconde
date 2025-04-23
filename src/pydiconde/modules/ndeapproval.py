@@ -1,7 +1,16 @@
 from pydicom.dataset import Dataset
 from pydicom.tag import Tag
 from datetime import datetime, time
+from enum import Enum
 
+class ApprovalStatus(Enum):
+    APPROVED = 0
+    NOTREVIEWED = 1
+    REJECTED = 2
+    NODISPOSITION = 3
+    RETEST = 4
+    REPAIR = 5
+    FURTHERREVIEW = 6
 
 class MultipleComponentApprovalElement(Dataset):
     def __init__(self):
