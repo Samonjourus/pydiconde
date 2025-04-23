@@ -45,8 +45,19 @@ class CoordinateSystemAxesSequenceElement(Dataset):
         return self[Tag(0x0014, 0x2208)].value
 
     @coordinateSystemDataSetMapping.setter
-    def coordinateSystemDataSetMapping(self, value: str):
-        self.add_new(Tag(0x0014, 0x2208), "CS", value)
+    def coordinateSystemDataSetMapping(self, value: str | DataSetMapping | None):
+        if isinstance(value, str):
+            if value.upper() in ["ROW", "COLUMN", "FRAME"]:
+                self.add_new(Tag(0x0014,0x2228), "CS", value.upper())
+        elif isinstance(value, DataSetMapping):
+            if value == DataSetMapping.ROW:
+                self.add_new(Tag(0x0014,0x2228), "CS", "ROW")
+            if value == DataSetMapping.COLUMN:
+                self.add_new(Tag(0x0014,0x2228), "CS", "COLUMN")
+            if value == DataSetMapping.FRAME:
+                self.add_new(Tag(0x0014,0x2228), "CS", "FRAME")
+        elif value is None:
+            self.pop((0x0014,0x2228))
 
     @property
     def coordinateSystemAxisNumber(self) -> int:
