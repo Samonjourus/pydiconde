@@ -92,8 +92,19 @@ class CoordinateSystemAxesSequenceElement(Dataset):
         return self[Tag(0x0014, 0x220E)].value
 
     @coordinateSystemAxisUnits.setter
-    def coordinateSystemAxisUnits(self, value: str):
-        self.add_new(Tag(0x0014, 0x220E), "CS", value)
+    def coordinateSystemAxisUnits(self, value: str | AxisUnits | None):
+        if isinstance(value, str):
+            if value.upper() in ["MM", "COUNTS", "DEGREES"]:
+                self.add_new(Tag(0x0014,0x220E), "CS", value.upper())
+        elif isinstance(value, AxisUnits):
+            if value == AxisUnits.MM:
+                self.add_new(Tag(0x0014,0x220E), "CS", "MM")
+            if value == AxisUnits.COUNTS:
+                self.add_new(Tag(0x0014,0x220E), "CS", "COUNTS")
+            if value == AxisUnits.DEGREES:
+                self.add_new(Tag(0x0014,0x220E), "CS", "DEGREES")
+        elif value is None:
+            self.pop((0x0014,0x220E))
 
     @property
     def coordinateSystemAxisValue(self):
