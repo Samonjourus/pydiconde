@@ -238,13 +238,20 @@ class DICONDEComponent(Dataset):
             self.pop((0x0014,0x0050))
 
     @curvatureType.setter
-    def curvatureType(self, value: str | None):
-        if value == 0:
-            self.add_new(Tag(0x0014,0x0052), "CS", "CONCAVE")
-        elif value == 1:
-            self.add_new(Tag(0x0014,0x0052), "CS", "CONVEX")
-        elif value == 2:
-            self.add_new(Tag(0x0014,0x0052), "CS", "COMPOUND")
+    def curvatureType(self, value: str | CurvatureType | None):
+        if isinstance(value, CurvatureType):
+            if value == CurvatureType.CONCAVE:
+                self.add_new(Tag(0x0014,0x0052), "CS", "CONCAVE")
+            elif value == CurvatureType.CONVEX:
+                self.add_new(Tag(0x0014,0x0052), "CS", "CONVEX")
+            elif value == CurvatureType.COMPOUND:
+                self.add_new(Tag(0x0014,0x0052), "CS", "COMPOUND")
+        elif isinstance(value, str):
+            if value.upper() in ["CONVAVE", "CONVEX", "COMPOUND"]:
+                self.add_new(Tag(0x0014,0x0052), "CS", value.upper())
+        elif value is None:
+            self.pop((0x0014, 0x0052))
+
 
     @outerDiameter.setter
     def outerDiameter(self, value: str | None):
