@@ -80,7 +80,25 @@ class CoordinateSystemAxesSequenceElement(Dataset):
         return self[Tag(0x0014, 0x220C)].value
 
     @coordinateSystemAxisType.setter
-    def coordinateSystemAxisType(self, value: str):
+    def coordinateSystemAxisType(self, value: str | AxisType | None):
+        if isinstance(value, str):
+            if value.upper() in ["FIXED", "SWIVEL", "SCAN", "ROTATION", "INDEX", "GIMBLE"]:
+                self.add_new(Tag(0x0014,0x220C), "CS", value.upper())
+        elif isinstance(value, AxisUnits):
+            if value == AxisType.FIXED:
+                self.add_new(Tag(0x0014,0x220C), "CS", "FIXED")
+            if value == AxisType.SWIVEL:
+                self.add_new(Tag(0x0014,0x220C), "CS", "SWIVEL")
+            if value == AxisType.SCAN:
+                self.add_new(Tag(0x0014,0x220C), "CS", "SCAN")
+            if value == AxisType.ROTATION:
+                self.add_new(Tag(0x0014,0x220C), "CS", "ROTATION")
+            if value == AxisType.INDEX:
+                self.add_new(Tag(0x0014,0x220C), "CS", "INDEX")
+            if value == AxisType.GIMBLE:
+                self.add_new(Tag(0x0014,0x220C), "CS", "GIMBLE")
+        elif value is None:
+            self.pop((0x0014,0x220C))
         self.add_new(Tag(0x0014, 0x220C), "CS", value)
 
     @property
