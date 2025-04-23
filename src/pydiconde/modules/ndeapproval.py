@@ -37,8 +37,34 @@ class MultipleComponentApprovalElement(Dataset):
         return self[Tag(0x0014,0x0107)].value
 
     @otherApprovalStatus.setter
-    def otherApprovalStatus(self, value: list[str]):
-        self.add_new(Tag(0x0014,0x0107), "CS", value)
+    def otherApprovalStatus(self, value: list[str | ApprovalStatus] | None):
+        new_value = []
+
+        if value is None:
+            self.pop((0x0010,0x1007))
+            return
+
+        for val in value:
+            if isinstance(val, str):
+                if val.upper() in ["APPROVED", "NOTREVIEWED", "REJECTED", "NODISPOSITION", "RETEST", "REPAIR", "FURTHERREVIEW"]:
+                    new_value.append(val.upper())
+            elif isinstance(val, ApprovalStatus):
+                if val == ApprovalStatus.APPROVED:
+                    new_value.append("APPROVED")
+                if val == ApprovalStatus.NOTREVIEWED:
+                    new_value.append("NOTREVIEWED")
+                if val == ApprovalStatus.REJECTED:
+                    new_value.append("REJECTED")
+                if val == ApprovalStatus.NODISPOSITION:
+                    new_value.append("NODISPOSITION")
+                if val == ApprovalStatus.RETEST:
+                    new_value.append("RETEST")
+                if val == ApprovalStatus.REPAIR:
+                    new_value.append("REPAIR")
+                if val == ApprovalStatus.FURTHERREVIEW:
+                    new_value.append("FURTHERREVIEW")
+
+        self.add_new(Tag(0x0010,0x1007), "CS", new_value)
 
     @property
     def otherComponentIDs(self) -> list[str]:
