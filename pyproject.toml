@@ -13,4 +13,4 @@ dependencies = [
 ]
 
 [project.scripts]
-jsontodiconde = "jsontodiconde:main"
+jsontodiconde = "jsontodiconde.cli:main"
