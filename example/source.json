@@ -1,0 +1,58 @@
+{
+  "out_path": "./converter.diconde",
+  "in_path": "sample.tif",
+  "metadata": [
+    {
+      "tag": "componentName",
+      "value": ""
+    },
+    {
+      "tag": "componentIDNumber",
+      "value": ""
+    },
+    {
+      "tag": "componentManufacturingDate",
+      "value": "2025-04-15"
+    },
+    {
+      "tag": "patientSex",
+      "value": "O"
+    },
+    {
+      "tag": "materialName",
+      "value": ""
+    },
+    {
+      "tag": "studyInstanceUID",
+      "value": "1.2.840.49258.3.152.235.2.12.187636473"
+    },
+    {
+      "tag": "studyDate",
+      "value": "2025-04-16"
+    },
+    {
+      "tag": "studyTime",
+      "value": "18:20:32"
+    },
+    { "tag": "studyID", "value": "" },
+    { "tag": "accessionNumber", "value": "" },
+    { "tag": "componentOwnerName", "value": "" },
+    { "tag": "inspectingCompanyName", "value": "" },
+    { "tag": "certifyingInspectorName", "value": "" },
+    { "tag": "studyDescription", "value": "" },
+    { "tag": "examinationNotes", "value": "" },
+    {
+      "tag": "expiryDate",
+      "value": "1970-01-01"
+    },
+
+    { "tag": "modality", "value": "THERMOGRAPHY" },
+    {
+      "tag": "seriesInstanceUID",
+      "value": "1.2.840.49258.3.152.235.2.13.187636473"
+    },
+    { "tag": "seriesNumber", "value": 0 },
+    { "tag": "softwareVersions", "value": ["DICONDE21"] },
+    { "tag": "manufacturer", "value": "" }
+  ]
+}
