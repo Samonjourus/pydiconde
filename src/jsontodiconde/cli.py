@@ -18,7 +18,15 @@ def main():
         print("missing JSON string")
         return
 
-    data = json.loads(sys.argv[1])
+    data = None
+    try:
+        data = json.loads(sys.argv[1])
+    except:
+        try:
+            data = json.load(open(sys.argv[1]))
+        except:
+            print("could not read the meta data as a json string or json file")
+            return
 
     # initialize structures
     diconde_file = Diconde()
