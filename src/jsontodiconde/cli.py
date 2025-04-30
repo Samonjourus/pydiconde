@@ -6,8 +6,6 @@ from pydicom import config
 from pydicom.dataset import FileMetaDataset
 import numpy as np
 from pydicom.uid import ExplicitVRLittleEndian, generate_uid, CTImageStorage
-
-from pydiconde.modules.componentseries import Modality
 import sys
 import json
 
