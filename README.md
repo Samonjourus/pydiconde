@@ -1,3 +1,4 @@
-# PythonCDD
+# Pydiconde
+A simple wrapper around Pydicom to write Diconde files.
 
-This project is a types library based on the AM Common Data Dictionary (CDD), also known as ASTM F3490-21.
+contains a CLI tool, jsontodiconde, to support conversion from json to diconde formats given a sample image.
