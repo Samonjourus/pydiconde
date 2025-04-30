@@ -11,3 +11,6 @@ license = { text = "MIT" }
 dependencies = [
   "pydicom"
 ]
+
+[project.scripts]
+jsontodiconde = "jsontodiconde.cli:main"
